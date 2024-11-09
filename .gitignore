@@ -1,0 +1,5 @@
+node_modules/
+mysql_data/
+phpmyadmin_data/
+.vscode/
+.env

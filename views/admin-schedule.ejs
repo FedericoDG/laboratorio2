@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/panel.css" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script type="module" defer src="/js/admin-schedule.js"></script>
+  <title>Agenda</title>
+</head>
+
+<body>
+  <div class="container">
+    <!-- NAVBAR -->
+    <%- include('./partials/navbar.ejs', {user: user}); %>
+    <main class="uk-margin-auto uk-margin-bottom uk-margin-top uk-padding-small bg-white main">
+      <ul class="uk-breadcrumb">
+        <li><a href="/panel">Panel</a></li>
+        <li><span>Agenda</span></li>
+      </ul>
+      <h1>
+        <h1 class="uk-text-lead uk-text-center">AGENDA</h1>
+        <p class="uk-text-large uk-text-center">Seleccione un médico para consultar la agenda...</>
+
+        <form class="uk-flex uk-flex-center">
+          <div class="uk-margin" style="position: relative;">
+            <!-- Añadir position: relative aquí -->
+            <div class="uk-flex uk-flex-center">
+              <input id="autocomplete" class="uk-input uk-form-large uk-width-large" type="text" placeholder="Nombre del médico..." autocomplete="off">
+              <ul id="autocomplete-list" class="uk-list uk-list-divider" style="display: none;">
+                <% resources.forEach((item) => { %>
+                <li class="autocomplete-item" data-id="<%= item.id %>"><%= item.title %></li>
+                <% }) %>
+              </ul>
+            </div>
+          </div>
+        </form>
+
+        <!-- Contenedor del calendario -->
+        <div id='calendar' class="hidden"></div>
+
+        <!-- Tooltip donde mostraremos los datos del turno -->
+        <div id="tooltip" class="tooltip"></div>
+
+        <!-- This is the modal -->
+        <div id="modal" uk-modal="animation: uk-animation-fade" class="uk-flex-top">
+          <div class="uk-modal-dialog">
+            <div class="uk-modal-header">
+              <h1 class="uk-text-lead uk-margin-remove" id="modalTitle"></h1>
+              <h2 class="uk-text-large uk-margin-remove" id="appointmentDate"></h2>
+              <h2 class="uk-text-large uk-margin-remove" id="from"></h2>
+            </div>
+            <form id="form">
+              <div class="uk-modal-body">
+                <div class="uk-flex uk-flex-middle">
+                  <label for="patientDocument" class="uk-form-label">Paciente:</label>
+                  <input class="uk-input" type="text" name="patientDocument" id="patientDocument" placeholder=" 20000000" autofocus>
+                  <button class="uk-button uk-button-primary" type="submit"><span uk-icon="search"></span></button>
+                </div>
+              </div>
+              <div id="tableContainer"></div>
+            </form>
+            <div class="uk-modal-footer uk-text-right">
+              <button class="uk-button uk-button-default" id="cancel" type="button">Cancelar</button>
+              <button class="uk-button uk-button-primary" id="submit" type="button" disabled>Reservar Turno</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- This is the modal -->
+        <div id="modalStatus" uk-modal="animation: uk-animation-fade" class="uk-flex-top">
+          <div class="uk-modal-dialog">
+            <div class="uk-modal-header">
+              <h1 class="uk-text-lead uk-margin-remove" id="modalTitle">Estado del Turno</h1>
+            </div>
+            <form id="formStatus">
+              <div class="uk-margin">
+                <div id="statusContainer" class="uk-section-small uk-flex uk-flex-middle uk-flex-center">
+                  <label for="status" class="uk-form-label uk-margin-right">Estado:</label>
+                  <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                    <span></span>
+                    <span uk-icon="icon: chevron-down"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default" id="cancelStatus" type="button">Cancelar</button>
+                <button class="uk-button uk-button-primary" id="submitStatus" type="button">Cambiar estado</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+    </main>
+    <!-- FOOTER -->
+    <%-include('./partials/footer.ejs'); %>
+  </div>
+
+  <script>
+    /*     setTimeout(() => {
+      window.history.pushState({}, document.title, window.location.pathname);
+    }, 300) */
+
+    const user = '<%- JSON.stringify(user) %>';
+    let resources = '<%- JSON.stringify(resources) %>';
+  </script>
+</body>
+
+</html>

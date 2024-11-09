@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png" />
+  <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.13/dist/js/uikit-icons.min.js"></script>
+  <title>Últimas Consultas</title>
+</head>
+
+<body>
+  <div class="container">
+    <!-- NAVBAR -->
+    <%-include('./partials/navbar.ejs', {user: user}); %>
+    <main class="uk-margin-auto uk-margin-bottom uk-margin-top uk-padding-small bg-white main">
+      <ul class="uk-breadcrumb">
+        <li><a href="/panel">Panel</a></li>
+        <li><span>Últimas Consultas</span></li>
+      </ul>
+      <h1 class="uk-text-lead uk-text-center">ÚLTIMAS CONSULTAS</h1>
+
+      <div class="uk-margin">
+        <input style="max-width: 300px; margin-left: auto;" class="uk-input uk-display-block" type="text" id="searchDocument" placeholder="Filtrar por número de documento" />
+      </div>
+
+
+      <!-- Tabla de pacientes -->
+      <table class="uk-table uk-table-small uk-table-striped" id="patientsTable">
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Apellido</th>
+            <th>Nombre</th>
+            <th>Fecha consulta</th>
+            <th>Hora consulta</th>
+            <th class="uk-text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% latestAppointments.forEach(appointment => { %>
+          <tr>
+            <td><%- appointment.patientDocument %></td>
+            <td><%- appointment.patient.lastname %></td>
+            <td><%- appointment.patient.name %></td>
+            <td><%= formatDate(appointment.date) %></td>
+            <td><%= formatTime(appointment.startTime) %> hs.</td>
+            <td class=" uk-flex uk-flex-center">
+              <div uk-tooltip="title: Editar" class="uk-flex uk-flex-center">
+                <a href="/panel/turnos/activo/editar?patientDocument=<%= appointment.patientDocument %>&date=<%= formatDate2(appointment.date) %>" uk-icon="icon: file-edit; ratio: 1"></a>
+              </div>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+    </main>
+
+    <!-- FOOTER -->
+    <%-include('./partials/footer.ejs'); %>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      window.history.pushState({}, document.title, window.location.pathname);
+    }, 300)
+
+    let success = '<%- JSON.stringify(success) %>';
+    let error = '<%- JSON.stringify(error) %>';
+    let message = '<%- JSON.stringify(message) %>';
+  </script>
+  <script>
+    const searchInput = document.getElementById('searchDocument');
+    const tableRows = document.querySelectorAll('#patientsTable tbody tr');
+    const filterActive = document.getElementById('filterActive');
+    const filterInactive = document.getElementById('filterInactive');
+
+    success = JSON.parse(success);
+    error = JSON.parse(error);
+    message = JSON.parse(message);
+
+    // Función para filtrar filas
+    function filterRows() {
+      const searchValue = searchInput.value.toLowerCase();
+
+      tableRows.forEach(row => {
+        const documentCell = row.querySelector('td').innerText.toLowerCase();
+
+        const matchesSearch = documentCell.includes(searchValue);
+
+        // Mostrar u ocultar según el estado del checkbox y la búsqueda
+        if (matchesSearch) {
+          row.style.display = ''; // Mostrar fila
+        } else {
+          row.style.display = 'none'; // Ocultar fila si no coincide con los filtros
+        }
+      });
+    }
+
+    // Eventos de escucha para actualizar los filtros
+    searchInput.addEventListener('input', filterRows);
+
+    // Mostrar mensajes de Toastify
+    if (success) {
+      Toastify({
+        text: message,
+        duration: 4000,
+        close: true,
+        gravity: 'bottom',
+        position: 'right',
+        stopOnFocus: true,
+        style: {
+          background: 'linear-gradient(to right, #05b016, #0be08b)',
+        },
+        onClick: function() {},
+      }).showToast();
+    }
+
+    if (error) {
+      Toastify({
+        text: message,
+        duration: 4000,
+        close: true,
+        gravity: 'bottom',
+        position: 'right',
+        stopOnFocus: true,
+        style: {
+          background: 'linear-gradient(to right, #b00505, #e00b0b)',
+        },
+        onClick: function() {},
+      }).showToast();
+    }
+  </script>
+
+
+</body>
+
+</html>

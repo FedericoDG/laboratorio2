@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/panel.css" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png" />
+  <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+  <title>Panel de Médico</title>
+</head>
+
+<body>
+  <main>
+    <div class="container">
+      <!-- NAVBAR -->
+      <%-include('./partials/navbar.ejs', {user: user}); %>
+      <main class="uk-margin-auto uk-margin-bottom uk-margin-top uk-padding-small bg-white main">
+
+
+        <ul class="uk-breadcrumb">
+          <li><span>Panel</span></li>
+        </ul>
+
+        <div>
+          <div class="uk-flex uk-flex-middle">
+            <span class="uk-label uk-label-primary label-auto uk-margin-right">
+              Médico
+            </span>
+            <h1 class="uk-text-lead uk-flex-between uk-margin-remove uk-width-2xlarge"><strong><%- user.name %> <%- user.lastname %></strong></h1>
+          </div>
+        </div>
+        <div class="uk-child-width-1-3@s uk-margin-top" uk-grid>
+          <div>
+            <div class="uk-card uk-card uk-card-small uk-card-body">
+              <h3 class="uk-card-title uk-text-center">TOTAL DE TURNOS HOY</h3>
+              <h1 class="uk-text-center uk-margin-remove"><%= attended + notAttended %></>
+            </div>
+          </div>
+          <div>
+            <div class="uk-card uk-card uk-card-small uk-card-body">
+              <h3 class="uk-card-title uk-text-center">TOTAL ATENDIDOS</h3>
+              <h1 class="uk-text-center uk-margin-remove"><%= attended %></>
+            </div>
+          </div>
+          <div>
+            <div class="uk-card uk-card uk-card-small uk-card-body">
+              <h3 class="uk-card-title uk-text-center">TOTAL POR ATENDER</h3>
+              <h1 class="uk-text-center uk-margin-remove"><%= notAttended %></>
+            </div>
+          </div>
+
+        </div>
+        <!-- CARDS -->
+        <div class="grid-container uk-margin-top">
+          <div class="uk-card uk-card-default">
+            <div class="uk-card-header">
+              <div class="uk-grid-small uk-flex-top" uk-grid>
+                <div class="uk-width-auto">
+                  <img class="uk-border-circle" width="40" height="40" src="/assets/agenda.jpg" alt="Agenda">
+                </div>
+                <div class="uk-width-expand">
+                  <h3 class="uk-card-title uk-margin-remove-bottom">Tu Agenda</h3>
+                  <p class="uk-text-meta uk-margin-remove-top">Inicia atenciones o revisa la historia clínica de los pacientes.</p>
+                </div>
+              </div>
+            </div>
+            <div class="uk-card-footer">
+              <a href="/panel/agenda" class="uk-button uk-button-text">IR A AGENDA</a>
+            </div>
+          </div>
+
+          <div class="uk-card uk-card-default">
+            <div class="uk-card-header">
+              <div class="uk-grid-small uk-flex-top" uk-grid>
+                <div class="uk-width-auto">
+                  <img class="uk-border-circle" width="40" height="40" src="/assets/plantillas.jpg" alt="Plantillas">
+                </div>
+                <div class="uk-width-expand">
+                  <h3 class="uk-card-title uk-margin-remove-bottom">Plantillas Personales</h3>
+                  <p class="uk-text-meta uk-margin-remove-top">Consulta, agrega, edita o elimina plantillas para evoluciones.</p>
+                </div>
+              </div>
+            </div>
+            <div class="uk-card-footer">
+              <a href="/panel/plantillas" class="uk-button uk-button-text">LISTAR</a>
+              <a href="/panel/plantillas/crear" class="uk-button uk-button-text uk-margin-left">CREAR</a>
+            </div>
+          </div>
+
+          <div class="uk-card uk-card-default">
+            <div class="uk-card-header">
+              <div class="uk-grid-small uk-flex-top" uk-grid>
+                <div class="uk-width-auto">
+                  <img class="uk-border-circle" width="40" height="40" src="/assets/ultimas-consultas.jpg" alt="Últimas Consultas">
+                </div>
+                <div class="uk-width-expand">
+                  <h3 class="uk-card-title uk-margin-remove-bottom">Últimas Consultas</h3>
+                  <p class="uk-text-meta uk-margin-remove-top">Edita las últimas consultas realizadas a cada paciente.</p>
+                </div>
+              </div>
+            </div>
+            <div class="uk-card-footer">
+              <a href="/panel/turnos/ultimos/" class="uk-button uk-button-text">LISTAR</a>
+            </div>
+          </div>
+
+          <div class="uk-card uk-card-default">
+            <div class="uk-card-header">
+              <div class="uk-grid-small uk-flex-top" uk-grid>
+                <div class="uk-width-expand uk-text-center">
+                  <h3 class="uk-card-title uk-margin-remove-bottom">Cerrar Sesión</h3>
+                </div>
+              </div>
+            </div>
+            <div class="uk-card-footer uk-flex uk-flex-center">
+              <a class="uk-button uk-button-danger" id="logout-panel" href="#"><span uk-icon="sign-out"></span>Salir</a>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+
+      <!-- FOOTER -->
+      <%-include('./partials/footer.ejs'); %>
+    </div>
+  </main>
+  <script>
+    const logoutBtn = document.getElementById('logout-panel');
+
+    logoutBtn.addEventListener('click', async () => {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+      const data = await response.json();
+
+      if (data.status) window.location.href = '/';
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/panel.css" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png" />
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+  <script src="https://unpkg.com/pristinejs/dist/pristine.min.js"></script>
+  <script type="module" defer src="/js/active.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <title>Historia Clínica</title>
+</head>
+
+<body>
+  <div class="container">
+    <!-- NAVBAR -->
+    <%-include('./partials/navbar.ejs', {user: user}); %>
+    <main class="uk-margin-auto uk-margin-bottom uk-margin-top uk-padding-small bg-white">
+      <div class="uk-section uk-section uk-padding-small">
+        <h2 class="uk-text-lead uk-text-center">HISTORIA CLÍNICA</h2>
+      </div>
+      <div class="uk-flex uk-margin-top">
+        <div class="uk-width-xlarge uk-margin-right">
+          <div class="uk-section uk-section-secondary uk-padding-small">
+            <table class="uk-table uk-table-divider uk-table-small">
+              <legend>Paciente</legend>
+              <thead>
+                <tr>
+                  <th>Documento</th>
+                  <th>Apellido</th>
+                  <th>Nombre</th>
+                  <th class="uk-text-center">Sexo</th>
+                  <th>Fecha Nac.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><%= activeAppointment.patient.patientDocument %></td>
+                  <td><%= activeAppointment.patient.lastname %></td>
+                  <td><%= activeAppointment.patient.name %></td>
+                  <td class="uk-text-center"><%= activeAppointment.patient.gender == 'MALE' ? 'M' : 'F' %></td>
+                  <td><%= formatDate(activeAppointment.patient.birthDate) %></td>
+              </tbody>
+            </table>
+            <table class="uk-table uk-table-divider uk-table-small">
+              <thead>
+                <tr>
+                  <th>Obra Social</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><%= activeAppointment.patient.socialSecurity %></td>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="uk-section uk-section-muted uk-padding-small uk-margin-top">
+            <p style="margin-bottom: 0 !important;">Evoluciones:</p>
+            <% if(evolutions.length) { %>
+            <dl class="uk-description-list">
+              <% evolutions.forEach((evolution) => { %>
+              <dt><%= formatDate(evolution.date) %></dt>
+              <dd>
+                <%- unescapeHtmlJsonQuotes(evolution.description) %>
+              </dd>
+              <% }) %>
+            </dl>
+            <% } else { %>
+            <p class="uk-text-meta uk-text-center">Actualmente no tiene ninguna evolución</p>
+            <% } %>
+          </div>
+
+          <!-- FORM -->
+          <div class="uk-section uk-section-muted uk-padding-small uk-margin-top" style="display: none !important;">
+            <form id="form" method="POST" action="/panel/turnos/finalizar?patientDocument=<%= activeAppointment.patient.patientDocument %>&date=<%= activeAppointment.date %>">
+              <!-- onsubmit="return false;" -->
+              <fieldset class="uk-fieldset">
+                <div class="form-group uk-margin-small">
+                  <div class="uk-margin">
+                    <label for="" style="display: block !important;">Plantillas:</label>
+                    <div uk-form-custom="target: > * > span:first-child">
+                      <div uk-form-custom="target: > * > span:first-child">
+                        <select aria-label="Custom controls" name="noteTemplate" id="noteTemplate">
+                          <option value="">Seleccione una plantilla...</option>
+                          <% noteTemplates.forEach((item) => { %>
+                          <option value="<%= item.content %>"><%= item.name %></option>
+                          <% }) %>
+                        </select>
+                        <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                          <span></span>
+                          <span uk-icon="icon: chevron-down"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <p style="margin-bottom: 0.5rem !important;">Nueva evolución:</p>
+                    <div name="description" id="description" style="height: 200px; max-height: 600px; overflow-y: auto;"></div>
+                  </div>
+                  <label for="">Diagnóstico:</label>
+                  <textarea value="" class="uk-input uk-margin-small" type="text" placeholder="Escriba el diagnóstico aquí..." name="diagnosis" id="diagnosis"></textarea>
+              </fieldset>
+              <div class="uk-flex uk-flex-right">
+                <button type="button" id="cancel" class="uk-button uk-button uk-margin-right">Cancelar</button>
+                <button type="submit" class="uk-button uk-button-danger">Finalizar atención</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="uk-width-xlarge">
+          <!-- MEDICATION -->
+          <div class="uk-section uk-section-muted uk-padding-small">
+            <% if (activeAppointment.patient.medications.length) { %>
+            <table class="uk-table uk-table-divider uk-table-small">
+              <legend>Medicación</legend>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th class="uk-text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <% activeAppointment.patient.medications.forEach((item) => { %>
+                  <td><%= item.name %></td>
+                  <td class=" uk-flex uk-flex-center">
+                    <div uk-tooltip="title: Eliminar medicación">
+                      <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-medication" data-id="<%= item.name %>"></button>
+                    </div>
+                  </td>
+                  <% }) %>
+              </tbody>
+            </table>
+            <% }else {%>
+            <h2 class="uk-text-meta uk-text-center">Actualmente no consume ningún tipo de medicación</h2>
+            <% } %>
+          </div>
+
+          <!-- ALLERGIES -->
+          <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
+            <% if (activeAppointment.patient.allergies.length) { %>
+            <table class="uk-table uk-table-divider uk-table-small">
+              <legend>Alergias</legend>
+              <thead>
+                <tr>
+                  <th>Grado</th>
+                  <th>Nombre</th>
+                  <th>Desde</th>
+                  <th>Hasta</th>
+                  <th class="uk-text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% activeAppointment.patient.allergies.forEach((item) => { %>
+                <tr>
+                  <% if (item.severity === 'LOW') { %>
+                  <td><span class="uk-label uk-label-success">Leve</span></td>
+                  <% } else if (item.severity === 'MEDIUM') { %>
+                  <td><span class="uk-label uk-label-warning">Moderado</span></td>
+                  <% } else { %>
+                  <td><span class="uk-label uk-label-danger">Severo</span></td>
+                  <% } %>
+                  <td><%= item.allergyType.allergyName %></td>
+                  <td><%= formatDate(item.startDate) %></td>
+                  <td><%= formatDate(item.endDate) %></td>
+                  <td class=" uk-flex uk-flex-center">
+                    <div uk-tooltip="title: Eliminar alergia">
+                      <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-allergy" data-id="<%= item.allergyId %>"></button>
+                    </div>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+            <% }else {%>
+            <h2 class="uk-text-meta uk-text-center">Actualmente tiene ningún tipo de alergia</h2>
+            <% } %>
+          </div>
+
+          <!-- PATHOLOGICAL HISTORY -->
+          <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
+            <% if (activeAppointment.patient.pathologicalHistory.length) { %>
+            <table class="uk-table uk-table-divider uk-table-small">
+              <legend>Antecedentes Patológicos</legend>
+              <thead>
+                <tr>
+                  <th>Descripción</th>
+                  <th>Desde</th>
+                  <th>Hasta</th>
+                  <th class="uk-text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% activeAppointment.patient.pathologicalHistory.forEach((item) => { %>
+                <tr>
+                  <td><%= item.description %></td>
+                  <td><%= formatDate(item.startDate) %></td>
+                  <td><%= formatDate(item.endDate) %></td>
+                  <td class=" uk-flex uk-flex-center">
+                    <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <div uk-tooltip="title: Eliminar antecedente patológico">
+                        <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-pathological" data-id="<%= item.pathologicalHistoryId %>"></button>
+                      </div>
+                    </form>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+            <% }else {%>
+            <h2 class="uk-text-meta uk-text-center">Actualmente tiene ningún tipo de antecedente patológico</h2>
+            <% } %>
+          </div>
+
+          <!-- HABITS -->
+          <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
+            <% if (activeAppointment.patient.habits.length) { %>
+            <table class="uk-table uk-table-divider uk-table-small">
+              <legend>Hábitos</legend>
+              <thead>
+                <tr>
+                  <th>Descripción</th>
+                  <th>Desde</th>
+                  <th>Hasta</th>
+                  <th class="uk-text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% activeAppointment.patient.habits.forEach((item) => { %>
+                <tr>
+                  <td><%= item.description %></td>
+                  <td><%= formatDate(item.startDate) %></td>
+                  <td><%= formatDate(item.endDate) %></td>
+                  <td class=" uk-flex uk-flex-center">
+                    <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <div uk-tooltip="title: Eliminar hábito">
+                        <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-habit" data-id="<%= item.habitId %>"></button>
+                      </div>
+                    </form>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+            <% }else {%>
+            <h2 class="uk-text-meta uk-text-center">Actualmente tiene ningún tipo de hábito</h2>
+            <% } %>
+          </div>
+
+          <!-- OTHER APPOINTMENTS OF THE DOCTOR -->
+          <div class="uk-section uk-margin-top uk-section-muted uk-padding-small">
+            <p style="margin-bottom: 0.5rem !important;">Consultas anteriores:</p>
+            <% if (activeAppointment.patient.appointments.filter((item) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense).length) { %>
+            <div style="max-height: 400px; overflow: auto;">
+              <% activeAppointment.patient.appointments
+      .filter((item) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense)
+      .forEach((item, index, array) => { %>
+
+              <p class="uk-text-meta uk-text-emphasis" style="text-align: right;"><%= formatDate(item.date) %></p>
+              <p class="uk-text-meta uk-text-emphasis">Razón de la consulta: <%= item.reason %></p>
+              <p class="uk-text-meta uk-text-emphasis">Diagnóstico: <%= item.diagnosis %></p>
+
+              <% if (index < array.length - 1) { %>
+              <hr class="uk-divider-icon">
+              <% } %>
+
+              <% }) %>
+            </div>
+            <% }else {%>
+            <h2 class="uk-text-meta uk-text-center">Actualmente no tiene consultas anteriores</h2>
+            <% } %>
+          </div>
+
+          <!-- OTHER APPOINTMENTS OF OTHER DOCTORS -->
+          <div class="uk-section uk-margin-top uk-section-muted uk-padding-small">
+            <p style="margin-bottom: 0.5rem !important;">Consultas con otros profesionales:</p>
+            <% if (activeAppointment.patient.appointments.filter((item) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense).length) { %>
+            <div style="max-height: 400px; overflow: auto;">
+              <% activeAppointment.patient.appointments
+      .filter((item) => item.status === 'ATTENDED' && item.doctorLicense !== activeAppointment.doctorLicense)
+      .forEach((item, index, array) => { %>
+
+              <p class="uk-text-meta uk-text-danger" style="text-align: right;"><%= formatDate(item.date) %></p>
+              <p class="uk-text-meta uk-text-danger">
+                Profesional: <%= item.doctor.user.lastname %> <%= item.doctor.user.name %> (<%= item.doctor.specialty %>)
+              </p>
+              <p class="uk-text-meta uk-text-danger">Razón de la consulta: <%= item.reason %></p>
+              <p class="uk-text-meta uk-text-danger">Diagnóstico: <%= item.diagnosis %></p>
+
+              <% if (index < array.length - 1) { %>
+              <hr class="uk-divider-icon">
+              <% } %>
+
+              <% }) %>
+            </div>
+            <% }else {%>
+            <h2 class="uk-text-meta uk-text-center">Actualmente no tiene consultas con otros profesionales</h2>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <div class="uk-flex uk-flex-center uk-margin">
+        <a class="uk-button uk-button-default" href="/panel/agenda">Volver</a>
+      </div>
+  </div>
+
+  <!-- MEDICATION OFFCANVAS -->
+  <div id="offcanvas-medication" uk-offcanvas="flip: true">
+    <div class="uk-offcanvas-bar">
+      <button class="uk-offcanvas-close" type="button" uk-close></button>
+      <h3>Medicación</h3>
+      <form id="form-medication">
+        <fieldset class="uk-fieldset">
+          <div class="form-group uk-margin-small">
+            <input value="" class="uk-input" type="text" placeholder="Lexotanil 500 mg" name="medicationName" id="medicationName">
+          </div>
+        </fieldset>
+        <div class="uk-flex uk-flex-right uk-margin-top">
+          <button class="uk-button uk-button-primary">Crear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ALERGIES OFFCANVAS -->
+  <div id="offcanvas-allergy" uk-offcanvas="flip: true">
+    <div class="uk-offcanvas-bar">
+      <button class="uk-offcanvas-close" type="button" uk-close></button>
+      <h3>Alergias</h3>
+      <form id="form-allergy">
+        <fieldset class="uk-fieldset">
+
+          <div class="uk-margin">
+            <div uk-form-custom="target: > * > span:first-child">
+              <select aria-label="Custom controls" name="allergyId" id="allergyId" style="width: 100%;">
+                <option value="">Tipo de alergia...</option>
+                <% allergyTypes.forEach((item) => { %>
+                <option value="<%= item.allergyId %>"><%= item.allergyName %></option>
+                <% }) %>
+              </select>
+              <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                <span></span>
+                <span uk-icon="icon: chevron-down"></span>
+              </button>
+            </div>
+            <div>
+              <div class="uk-margin">
+                <div uk-form-custom="target: > * > span:first-child">
+                  <select aria-label="Custom controls" name="severity" id="severity">
+                    <option value="">Grado de la alergia...</option>
+                    <option value="LOW">Leve</option>
+                    <option value="MEDIUM">Moderado</option>
+                    <option value="HIGH">Severo</option>
+                  </select>
+                  <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                    <span></span>
+                    <span uk-icon="icon: chevron-down"></span>
+                  </button>
+                </div>
+                <div>
+                  <label for="">Inicio:</label>
+                  <input class="uk-input" type="date" name="startDate" id="startDate">
+                </div>
+                <div>
+                  <label for="">Fin:</label>
+                  <input class="uk-input" type="date" name="endDate" id="endDate">
+                </div>
+              </div>
+        </fieldset>
+        <div class="uk-flex uk-flex-right">
+          <button class="uk-button uk-button-primary">Crear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PATHOLOGICAL HISTORY OFFCANVAS -->
+  <div id="offcanvas-pathological-history" uk-offcanvas="flip: true">
+    <div class="uk-offcanvas-bar">
+      <button class="uk-offcanvas-close" type="button" uk-close></button>
+      <h3>Antecedentes Patológicos</h3>
+      <form id="form-pathological-history">
+        <fieldset class="uk-fieldset">
+          <div class="form-group uk-margin-small">
+            <textarea value="" class="uk-input" type="text" placeholder="Diabetes Mellitus Tipo 2" name="pathologicalHistoryDescription" id="pathologicalHistoryDescription"></textarea>
+          </div>
+          <div>
+            <label for="">Inicio:</label>
+            <input class="uk-input" type="date" name="startDate" id="pathologicalHistoryStartDate">
+          </div>
+          <div>
+            <label for="">Fin:</label>
+            <input class="uk-input" type="date" name="endDate" id="pathologicalHistoryEndDate">
+          </div>
+        </fieldset>
+        <div class="uk-flex uk-flex-right uk-margin-top">
+          <button class="uk-button uk-button-primary">Crear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- HABITS OFFCANVAS -->
+  <div id="offcanvas-habits" uk-offcanvas="flip: true">
+    <div class="uk-offcanvas-bar">
+      <button class="uk-offcanvas-close" type="button" uk-close></button>
+      <h3>Hábitos</h3>
+      <form id="form-habit">
+        <fieldset class="uk-fieldset">
+          <div class="form-group uk-margin-small">
+            <textarea value="" class="uk-input" type="text" placeholder="Sedentarismo" name="habitDescription" id="habitDescription"></textarea>
+          </div>
+          <div>
+            <label for="">Inicio:</label>
+            <input class="uk-input" type="date" name="startDate" id="habitStartDate">
+          </div>
+          <div>
+            <label for="">Fin:</label>
+            <input class="uk-input" type="date" name="endDate" id="habitEndDate">
+          </div>
+        </fieldset>
+        <div class="uk-flex uk-flex-right uk-margin-top">
+          <button class="uk-button uk-button-primary">Crear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="uk-width-xlarge">
+  </div>
+  </main>
+
+  <!-- FOOTER -->
+  <%-include('./partials/footer.ejs'); %>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      const url = new URL(window.location.href);
+
+      url.searchParams.delete('success');
+      url.searchParams.delete('error');
+      url.searchParams.delete('message');
+      history.replaceState(null, '', url);
+    }, 300)
+
+    let success = '<%- JSON.stringify(success) %>';
+    let error = '<%- JSON.stringify(error) %>';
+    let message = '<%- JSON.stringify(message) %>';
+    let activeAppointment = '<%- JSON.stringify(activeAppointment) %>';
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+</body>
+
+</html>

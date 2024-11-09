@@ -1,0 +1,111 @@
+@offcanvas-bar-background: #fff;
+@offcanvas-bar-color-mode: none;
+
+html {
+  scroll-behavior: smooth;
+}
+
+html.modal-open {
+  scrollbar-gutter: auto; /* O desactiva completamente */
+}
+
+body {
+  background-color: #f8f8f8;
+  margin: 0;
+  padding: 0;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.hero {
+  height: calc(100vh - 24px);
+  overflow: hidden;
+}
+
+.login-form {
+  width: 360px;
+}
+
+.footer {
+  margin-bottom: 1rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.block {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.padding-0 {
+  padding: 0 !important;
+}
+
+.pristine-error {
+  background-color: #f0506e;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 12px;
+  margin-top: 2px;
+  padding-left: 8px;
+}
+
+.btn-disabled {
+  background-color: whitesmoke !important;
+}
+
+.tachado {
+  text-decoration: line-through;
+}
+
+.red {
+  background-color: #f0506e !important;
+  min-width: 60px;
+}
+
+.blue {
+  background-color: #0f7ae5 !important;
+  min-width: 60px;
+}
+
+#footer {
+  margin: 0 !important;
+  padding: 1rem;
+}
+
+#footer p {
+  margin: 0 !important;
+}
+
+#footer span {
+  margin: 0 !important;
+}
+textarea {
+  min-height: 100px;
+}
+
+.login-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+  background-image: url(../assets/hero.jpg);
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(255, 255, 255, 1);
+  background-blend-mode: luminosity;
+  transition: background-color 1s ease-out;
+}

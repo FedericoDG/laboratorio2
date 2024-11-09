@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png" />
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+  <script src="https://unpkg.com/pristinejs/dist/pristine.min.js"></script>
+  <script type="module" defer src="/js/template.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <title>Editar Plantilla para Notas</title>
+</head>
+
+<body>
+  <div class="container">
+    <!-- NAVBAR -->
+    <%-include('./partials/navbar.ejs', {user: user}); %>
+    <main class="uk-margin-auto uk-margin-bottom uk-margin-top uk-padding-small bg-white main">
+      <ul class="uk-breadcrumb">
+        <li><a href="/panel">Panel</a></li>
+        <li><a href="/panel/plantillas">Plantillas</a></li>
+        <li><span>Editar</span></li>
+      </ul>
+
+      <h1 class="uk-text-lead uk-text-center">EDITAR PLANTILLA PARA NOTAS</h1>
+
+      <form id="form" method="POST" action="/panel/plantillas">
+        <input type="hidden" name="_method" value="PUT">
+        <fieldset class="uk-fieldset">
+          <div class="form-group uk-margin-small">
+            <input value="<%- noteTemplate.name %>" class="uk-input uk-margin-small" type="text" placeholder="Para-antecedentes-cardíacos" name="name" id="name" readonly>
+            <div name="content" id="content" style="height: 200px; max-height: 600px; overflow-y: auto;"></div>
+          </div>
+        </fieldset>
+        <div class="uk-flex uk-flex-right">
+          <button class="uk-button uk-button-primary">Editar</button>
+        </div>
+      </form>
+    </main>
+    <!-- FOOTER -->
+    <%-include('./partials/footer.ejs'); %>
+
+  </div>
+
+  <script>
+    const isCreateScreen = false
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+  <script>
+    let success = '<%- JSON.stringify(success) %>';
+    let error = '<%- JSON.stringify(error) %>';
+    let message = '<%- JSON.stringify(message) %>';
+    let noteTemplate = '<%- JSON.stringify(noteTemplate) %>';
+  </script>
+</body>
+
+</html>

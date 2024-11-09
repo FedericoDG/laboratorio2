@@ -1,0 +1,199 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  DOCTOR
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Days {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+}
+
+enum ConsultationStatus {
+  NOT_ATTENDED
+  ATTENDED
+  CANCELLED
+}
+
+enum AllergyStatus {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  userDocument Int     @id @map("user_document") @db.Int
+  lastname     String  @db.VarChar(50)
+  name         String  @db.VarChar(50)
+  password     String  @db.VarChar(60)
+  role         Role
+  isActive     Boolean @default(true) @map("is_active")
+  // Relations
+  doctor       Doctor?
+
+  @@map("user")
+}
+
+model Doctor {
+  doctorLicense  String         @id @map("doctor_license") @db.VarChar(36)
+  userDocument   Int            @unique @map("user_document") @db.Int
+  specialty      String         @db.VarChar(50)
+  // Relations
+  user           User           @relation(fields: [userDocument], references: [userDocument])
+  availabilities Availability[]
+  appointments   Appointment[]
+  evolutions     Evolution[]
+  NoteTemplate   NoteTemplate[]
+
+  @@map("doctor")
+}
+
+model Patient {
+  patientDocument     Int                   @id @map("patient_document") @db.Int
+  lastname            String                @db.VarChar(50)
+  name                String                @db.VarChar(50)
+  birthDate           DateTime              @map("birth_date") @db.Date
+  gender              Gender                @default(MALE)
+  socialSecurity      String                @default("PARTICULAR") @map("social_security") @db.VarChar(100)
+  isActive            Boolean               @default(true) @map("is_active")
+  // Relations
+  appointments        Appointment[]
+  allergies           Allergy[]
+  pathologicalHistory PathologicalHistory[]
+  habits              Habit[]
+  medications         Medication[]
+  evolutions          Evolution[]
+
+  @@map("patient")
+}
+
+model Evolution {
+  doctorLicense   String   @map("doctor_license") @db.VarChar(36)
+  patientDocument Int      @map("patient_document") @db.Int
+  description     String   @db.Text()
+  date            DateTime @db.DateTime
+  // Relations
+  doctor          Doctor   @relation(fields: [doctorLicense], references: [doctorLicense])
+  patient         Patient  @relation(fields: [patientDocument], references: [patientDocument])
+
+  @@id([doctorLicense, patientDocument, date])
+  @@map("evolution")
+}
+
+model Appointment {
+  doctorLicense   String             @map("doctor_license") @db.VarChar(36)
+  patientDocument Int                @map("patient_document") @db.Int
+  date            DateTime           @db.Date
+  startTime       DateTime           @map("start_time") @db.Time
+  endTime         DateTime           @map("end_time") @db.Time
+  reason          String             @default("Consulta general") @db.VarChar(100)
+  diagnosis       String?            @db.VarChar(500)
+  status          ConsultationStatus @default(NOT_ATTENDED)
+  // Relations
+  doctor          Doctor             @relation(fields: [doctorLicense], references: [doctorLicense])
+  patient         Patient            @relation(fields: [patientDocument], references: [patientDocument])
+
+  @@id([doctorLicense, patientDocument, date])
+  @@map("appointment")
+}
+
+model Availability {
+  doctorLicense String   @map("doctor_license") @db.VarChar(36)
+  day           Days
+  startTime     DateTime @map("start_time") @db.Time
+  endTime       DateTime @map("end_time") @db.Time
+  // Relations
+  doctor        Doctor   @relation(fields: [doctorLicense], references: [doctorLicense])
+
+  @@id([doctorLicense, day])
+  @@map("availability")
+}
+
+model Allergy {
+  patientDocument Int           @map("patient_document") @db.Int
+  allergyId       String        @map("allergy_Id") @db.VarChar(36)
+  severity        AllergyStatus
+  startDate       DateTime?     @map("start_date") @db.DateTime
+  endDate         DateTime?     @map("end_date") @db.DateTime
+
+  // Relaciones
+  patient     Patient     @relation(fields: [patientDocument], references: [patientDocument])
+  allergyType AllergyType @relation(fields: [allergyId], references: [allergyId])
+
+  @@id([patientDocument, allergyId])
+  @@map("allergy")
+}
+
+model AllergyType {
+  allergyId   String  @id @default(uuid()) @map("allergy_id")
+  allergyName String  @map("allergy_name") @db.VarChar(100)
+  isActive    Boolean @default(true) @map("is_active")
+
+  // Relations
+  allergies Allergy[]
+
+  @@map("allergy_type")
+}
+
+model PathologicalHistory {
+  pathologicalHistoryId String    @id @default(uuid()) @map("pathological_history_id")
+  patientDocument       Int       @map("patient_document") @db.Int
+  description           String    @db.VarChar(255)
+  startDate             DateTime  @map("start_date") @db.DateTime
+  endDate               DateTime? @map("end_date") @db.DateTime
+  // Relaciones
+  patient               Patient   @relation(fields: [patientDocument], references: [patientDocument])
+
+  @@map("pathological_history")
+}
+
+model Habit {
+  habitId         String    @id @default(uuid()) @map("habit_id")
+  patientDocument Int       @map("patient_document") @db.Int
+  description     String    @db.VarChar(255)
+  startDate       DateTime  @map("start_date") @db.DateTime
+  endDate         DateTime? @map("end_date") @db.DateTime
+  // Relaciones
+  patient         Patient   @relation(fields: [patientDocument], references: [patientDocument])
+
+  @@map("habit")
+}
+
+model Medication {
+  patientDocument Int     @map("patient_document") @db.Int
+  name            String  @db.VarChar(60)
+  // Relations
+  patient         Patient @relation(fields: [patientDocument], references: [patientDocument])
+
+  @@id([patientDocument, name])
+  @@map("medication")
+}
+
+model NoteTemplate {
+  doctorLicense String  @map("doctor_license") @db.VarChar(36)
+  name          String  @db.VarChar(60)
+  content       String  @db.Text()
+  isActive      Boolean @default(true) @map("is_active")
+  // Relations
+  doctor        Doctor  @relation(fields: [doctorLicense], references: [doctorLicense])
+
+  @@id([doctorLicense, name])
+  @@map("note_template")
+}

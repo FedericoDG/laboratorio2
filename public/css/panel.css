@@ -1,0 +1,90 @@
+#calendar {
+  padding: 1rem;
+  margin: 1rem auto;
+}
+
+.fc-license-message {
+  display: none !important;
+}
+
+.fc-event,
+.fc-slot,
+.fc-timegrid-slot {
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+  display: none;
+  font-size: 12px;
+}
+
+.fc .fc-daygrid-day,
+.fc .fc-timegrid-slot {
+  background-color: white;
+}
+
+.fc-button {
+  box-shadow: none !important;
+}
+
+td {
+  height: 45px !important;
+  min-height: 45px !important;
+}
+
+#autocomplete-list {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  position: absolute;
+  top: 75%;
+  left: 0;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+#autocomplete-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+#autocomplete-list li:hover {
+  background-color: #b4b4b4;
+}
+.small-select {
+  max-width: 200px !important;
+}
+
+.uk-label {
+  width: 96px;
+  text-align: center;
+}
+
+.add {
+  width: 230px !important;
+}
+
+dt {
+  text-align: right;
+}
+
+dd {
+  padding: 0 0.5rem;
+  border: 1px solid rgb(209, 209, 209);
+  border-radius: 4px;
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+}

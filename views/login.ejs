@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/login.css" />
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.png" />
+  <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+  <script src="https://unpkg.com/pristinejs/dist/pristine.min.js"></script>
+  <script defer src="./js/login.js"></script>
+  <title>Agenda Médica - Login</title>
+</head>
+
+<body>
+  <div class="login-container">
+    <!-- HERO -->
+    <div class="uk-position-relative hero">
+      <!-- ALERT -->
+      <div id="general-alert" class="uk-alert-danger uk-position-top hidden" uk-alert>
+        <a id="cerrar" href class="uk-alert-close" uk-close></a>
+        <p id="general-alert-message"></p>
+      </div>
+      <!-- FORM -->
+      <form id="form" class="uk-flex uk-flex-column uk-form uk-position-center uk-box-shadow-large uk-padding-small uk-border-rounded uk-section-default uk-section-large login-form">
+        <p class="uk-text-lead uk-margin-remove uk-align-center uk-text-primary" style="text-align: center;">TP. ATENCIÓN MÉDICA</p>
+        <p class="uk-text-large uk-margin-small uk-align-center">ACCESO</p>
+        <div class="form-group uk-margin-small">
+          <label class="uk-form-label" for="userDocument">DNI:</label>
+          <input type="text" name="userDocument" id="userDocument" placeholder="28621763" class="uk-input uk-border-rounded input" />
+        </div>
+        <!-- <p class="uk-text-small uk-text-danger uk-margin-remove-top">Error:</p> -->
+        <div class="form-group uk-margin-small">
+          <label class="uk-form-label" for="password">CONTRASEÑA:</label>
+          <input type="password" name="password" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" class="uk-input uk-input uk-border-rounded input" />
+          <!-- <p class="uk-text-small uk-text-danger uk-margin-remove-top">Error:</p> -->
+        </div>
+        <button id="searchButton" class="uk-button uk-button-secondary uk-border-rounded" type="submit">
+          Iniciar Sesión
+        </button>
+        <div id="alert" class="uk-alert-danger hidden" uk-alert>
+          <a href class="uk-alert-close" uk-close></a>
+          <p id="error-message"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

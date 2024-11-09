@@ -1,0 +1,86 @@
+export const allergies = [
+  {
+    consultationId: '2280802b-4e08-4678-8dcf-c52b50f09ff9',
+    allergyTypeId: 'bb561a5a-c579-4f49-af4f-c7657a227453',
+    severity: 'HIGH',
+    startDate: DateTime.fromISO('1990-02-12', { zone: 'UTC' }),
+  },
+  {
+    consultationId: '2280802b-4e08-4678-8dcf-c52b50f09ff9',
+    allergyTypeId: 'f55a857b-5f0c-418b-a423-27ba50db0a75',
+    severity: 'LOW',
+    startDate: DateTime.fromISO('2010-02-12', { zone: 'UTC' }),
+  },
+  {
+    consultationId: 'b2948711-fa86-4282-87e7-f4cb0af2066d',
+    allergyTypeId: '45ff42af-c277-4b77-966c-9e825f515b93',
+    severity: 'HIGH',
+    startDate: DateTime.fromISO('2010-09-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: '209ef592-dedc-4b76-902f-83d98281dda7',
+    allergyTypeId: '2bab54a8-a1c6-4984-b079-5e824392f7df',
+    severity: 'LOW',
+    startDate: DateTime.fromISO('1999-08-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: 'e2804fd4-5d7a-4d41-ae53-060508d2af8d',
+    allergyTypeId: 'c8301345-eebb-40d5-a9fd-a3daed5c99b6',
+    severity: 'MEDIUM',
+    startDate: DateTime.fromISO('2006-07-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: '96946bd1-849f-47b5-ad65-47b1f066ef0e',
+    allergyTypeId: 'ead2ea78-92e2-4eb5-9ed4-ef275a7beaa1',
+    severity: 'MEDIUM',
+    startDate: DateTime.fromISO('2009-01-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: 'b08112d9-a05f-4d55-a073-bc32ea78de9d',
+    allergyTypeId: '45ff42af-c277-4b77-966c-9e825f515b93',
+    severity: 'LOW',
+    startDate: DateTime.fromISO('2009-01-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: '665b417b-c3b1-4bc7-8705-70671ae539f8',
+    allergyTypeId: 'bd1c0d44-13fa-4c9b-b5e1-42ef64268537',
+    severity: 'HIGH',
+    startDate: DateTime.fromISO('2009-01-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: '649a525c-fb3b-4513-929c-43bfa5a49029',
+    allergyTypeId: 'bd853dd8-24dc-4ebf-bd02-3ac8fe1fbe46',
+    severity: 'MEDIUM',
+    startDate: DateTime.fromISO('2009-01-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: '49f79ae5-d3ec-4d61-9499-209f8027dfcd',
+    allergyTypeId: '79dbc8cb-0d12-41bd-915c-ed9642d4d95b',
+    severity: 'MEDIUM',
+    startDate: DateTime.fromISO('2009-01-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: '49f79ae5-d3ec-4d61-9499-209f8027dfcd',
+    allergyTypeId: 'cc2e95b0-4bda-4ef3-8007-736d06526da7',
+    severity: 'LOW',
+    startDate: DateTime.fromISO('2009-01-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: 'cf3581de-1598-4157-b2bb-c7b74027dc55',
+    allergyTypeId: 'c683d929-4a0d-4346-b4f6-78bbee4d65bd',
+    severity: 'LOW',
+    startDate: DateTime.fromISO('2009-01-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: '51696104-7992-422d-abe2-8c07db9998f5',
+    allergyTypeId: '79dbc8cb-0d12-41bd-915c-ed9642d4d95b',
+    severity: 'LOW',
+    startDate: DateTime.fromISO('2009-01-01', { zone: 'UTC' }),
+  },
+  {
+    consultationId: 'a448a6b8-7dbd-4557-a2ed-5e4ecb2e6472',
+    allergyTypeId: '79dbc8cb-0d12-41bd-915c-ed9642d4d95b',
+    severity: 'MEDIUM',
+    startDate: DateTime.fromISO('2009-07-01', { zone: 'UTC' }),
+  },
+];

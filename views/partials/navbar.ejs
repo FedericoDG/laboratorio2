@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+</body>
+
+<head>
+  <script type="module" defer src="/js/navbar.js"></script>
+</head>
+
+</html>
+<nav class="uk-background-secondary uk-light" uk-navbar>
+  <div class="uk-navbar-left uk-margin-left">
+    <a class="uk-navbar-item uk-logo" href="/panel">Administración Médica</a>
+    <ul class="uk-navbar-nav ul-flex">
+      <li class="uk-active"><a href="/panel/agenda">Agenda</a></li>
+      <% if (user.role === 'ADMIN') { %>
+      <li class="uk-active">
+        <a href="#">Pacientes <span uk-navbar-parent-icon></span></a>
+        <div class="uk-navbar-dropdown">
+          <ul class="uk-nav uk-navbar-dropdown-nav">
+            <li class="uk-active"><a href="/panel/pacientes">Listar / Editar / Borrar</a></li>
+            <li class="uk-active"><a href="/panel/pacientes/crear">Crear</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="uk-active">
+        <a href="#">Médicos <span uk-navbar-parent-icon></span></a>
+        <div class="uk-navbar-dropdown">
+          <ul class="uk-nav uk-navbar-dropdown-nav">
+            <li class="uk-active"><a href="/panel/medicos"">Listar / Editar / Borrar</a></li>
+            <li class=" uk-active"><a href="/panel/medicos/crear">Crear</a></li>
+          </ul>
+        </div>
+      </li>
+      <% } %>
+      <li class="uk-active">
+        <a href="#">Otras <span uk-navbar-parent-icon></span></a>
+        <div class="uk-navbar-dropdown">
+          <ul class="uk-nav uk-navbar-dropdown-nav">
+            <% if (user.role === 'ADMIN') { %>
+            <li class="uk-nav-header">Alergias</li>
+            <li><a href="/panel/tipos-de-alergia">Listar / Editar / Borrar</a></li>
+            <li><a href="/panel/tipos-de-alergia/crear">Crear</a></li>
+            <li class="uk-nav-divider"></li>
+            <li class="uk-nav-header">Administradores</li>
+            <li><a href="/panel/usuarios">Listar / Editar / Borrar</a></li>
+            <li><a href="/panel/usuarios/crear">Crear</a></li>
+            <% } else { %>
+            <li class="uk-nav-header">Plantillas</li>
+            <li><a href="/panel/plantillas">Listar / Editar / Borrar</a></li>
+            <li><a href="/panel/plantillas/crear">Crear</a></li>
+            <li class="uk-nav-header">Últimas consultas</li>
+            <li><a href="/panel/turnos/ultimos/">Listar / Editar</a></li>
+            <% } %>
+            <!--  <li><a href="#">Item</a></li> -->
+          </ul>
+        </div>
+      </li>
+      <!--  <li class="uk-active"><a id="logout" href="#">Salir</a></li> -->
+      <li class="uk-active"><a id="logout" href="#"><span uk-icon="sign-out"></span>Salir</a></li>
+    </ul>
+  </div>
+</nav>
+
+<body>

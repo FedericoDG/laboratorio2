@@ -1,0 +1,166 @@
+@offcanvas-bar-background: #fff;
+@offcanvas-bar-color-mode: none;
+
+html {
+  scroll-behavior: auto;
+  scrollbar-gutter: stable;
+}
+
+html.modal-open {
+  scrollbar-gutter: auto; /* O desactiva completamente */
+}
+
+body {
+  background-image: url(../assets/cool-background.png);
+  background-size: repeat;
+  background-position: center;
+  background-color: rgba(255, 255, 255, 1);
+  background-blend-mode: luminosity;
+  transition: background-color 1s ease-out;
+  margin: 0;
+  padding: 0;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.main {
+  min-width: 1200px !important;
+  max-width: 1200px !important;
+  box-shadow: 1px 1px 20px 4px rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.hero {
+  height: calc(100vh - 24px);
+  overflow: hidden;
+}
+
+.login-form {
+  width: 360px;
+}
+
+.footer {
+  margin-bottom: 1rem;
+  font-family: 'Tolkien', sans-serif;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.block {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.padding-0 {
+  padding: 0 !important;
+}
+
+.pristine-error {
+  background-color: #f0506e;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 12px;
+  margin-top: 2px;
+  padding-left: 8px;
+}
+
+.active-appointment .pristine-error {
+  display: none !important;
+}
+
+.btn-disabled {
+  background-color: whitesmoke !important;
+}
+
+.tachado {
+  text-decoration: line-through;
+}
+
+.red {
+  background-color: #f0506e !important;
+  min-width: 60px;
+}
+
+.blue {
+  background-color: #0f7ae5 !important;
+  min-width: 60px;
+}
+
+#footer {
+  margin: 0 !important;
+  padding: 1rem;
+}
+
+#footer p {
+  margin: 0 !important;
+}
+
+#footer span {
+  margin: 0 !important;
+  font-size: 1.25rem;
+}
+
+textarea {
+  min-height: 120px;
+}
+
+dd {
+  padding: 1rem !important;
+}
+
+dd h1,
+dd h2,
+dd p {
+  margin: 0 !important;
+}
+
+dd h1 {
+  font-size: 1.5rem !important;
+}
+
+dd h2 {
+  font-size: 1.25rem !important;
+}
+
+dd p {
+  font-size: 0.8rem !important;
+}
+
+.label-auto {
+  width: auto !important;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exactamente 3 columnas */
+  gap: 20px; /* Espacio controlado entre las tarjetas */
+  max-width: 1200px; /* Ancho máximo del contenedor para limitar la expansión */
+  padding: 0 10px; /* Espacio interno lateral */
+  /*  background-color: #f0506e; */
+}
+
+.grid-container .uk-card {
+  max-width: 500px; /* Ancho máximo de cada tarjeta */
+  width: 100%;
+}
+
+.uk-card-header {
+  min-height: 80px;
+}
+
+.margin-right {
+  margin-right: 0.5rem;
+}

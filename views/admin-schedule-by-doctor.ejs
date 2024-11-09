@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/panel.css" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.png" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://unpkg.com/pristinejs/dist/pristine.min.js"></script>
+  <script src='/js/full-calendar.js'></script>
+  <script type="module" defer src="/js/admin-schedule-by-doctor.js"></script>
+  <script type="module" defer src="/js/custom-fetch.js"></script>
+  <title>Agenda</title>
+</head>
+
+<body>
+  <div class="container">
+    <!-- NAVBAR -->
+    <%- include('./partials/navbar.ejs', {user: user}); %>
+    <main class="uk-margin-auto uk-margin-bottom uk-margin-top uk-padding-small bg-white main">
+      <div id="my-modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+          <h2 class="uk-modal-title"></h2>
+          <div class="uk-flex uk-flex-between">
+            <div id="btnContainer">
+            </div>
+            <div>
+              <button id="close-modal-button" class="uk-button" type="button">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ul class="uk-breadcrumb">
+        <li><a href="/panel">Panel</a></li>
+        <li><a href="/panel/agenda">Agenda</a></li>
+        <li><span><%- resources[0].title %></span></li>
+      </ul>
+      <h1>
+        <h1 class="uk-text-lead uk-text-center">AGENDA - <%- resources[0].title.toUpperCase() %></h1>
+
+        <form class="" id="dateForm">
+          <div class="uk-flex uk-flex-right uk-flex-middle uk-section-small">
+            <div class="uk-flex">
+              <input id="dateValue" class="uk-input" type="date" name="date" />
+            </div>
+            <button class="uk-button uk-button uk-margin-left" type="submit">Ir a fecha</button>
+          </div>
+        </form>
+
+        <!-- Contenedor del calendario -->
+        <div id='calendar'></div>
+
+        <!-- Tooltip donde mostraremos los datos del turno -->
+        <div id="tooltip" class="tooltip"></div>
+
+        <!-- This is the modal -->
+        <div id="modal" uk-modal="animation: uk-animation-fade" class="uk-flex-top">
+          <div class="uk-modal-dialog">
+            <div class="uk-modal-header">
+              <h1 class="uk-text-lead uk-margin-remove" id="modalTitle"></h1>
+              <h2 class="uk-text-large uk-margin-remove" id="appointmentDate"></h2>
+              <h2 class="uk-text-large uk-margin-remove" id="from"></h2>
+            </div>
+            <form id="searchAnPatient">
+              <div class="uk-modal-body">
+                <div class="uk-flex uk-flex-middle uk-flex-center">
+                  <label style="width: 60px !important;" for="patientDocumentValue" class="uk-form-label">Paciente:</label>
+                  <input class="uk-input" type="text" name="patientDocument" id="patientDocumentValue" placeholder=" 20000000" autofocus>
+                  <button class="uk-button uk-button-primary" type="submit"><span uk-icon="search"></span></button>
+                </div>
+                <div class="uk-flex uk-flex-middle" id="patientContainer"> </div>
+              </div>
+              <div id="tableContainer"></div>
+            </form>
+            <div class="uk-modal-footer uk-text-right">
+              <button class="uk-button uk-button-default" id="cancel" type="button">Cancelar</button>
+              <button class="uk-button uk-button-primary" id="submitAppointment" type="button" disabled>Reservar Turno</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- This is the modal -->
+        <div id="modalStatus" uk-modal="animation: uk-animation-fade" class="uk-flex-top">
+          <div class="uk-modal-dialog">
+            <div class="uk-modal-header">
+              <h1 class="uk-text-lead uk-margin-remove" id="modalTitle">Estado del Turno</h1>
+            </div>
+            <form id="formStatus">
+              <div class="uk-margin">
+                <div id="statusContainer" class="uk-section-small uk-flex uk-flex-middle uk-flex-center">
+                  <label for="status" class="uk-form-label uk-margin-right">Estado:</label>
+                  <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                    <span></span>
+                    <span uk-icon="icon: chevron-down"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default" id="cancelStatus" type="button">Cancelar</button>
+                <button class="uk-button uk-button-primary" id="submitStatus" type="button">Cambiar estado</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+    </main>
+    <!-- FOOTER -->
+    <%-include('./partials/footer.ejs'); %>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      window.history.pushState({}, document.title, window.location.pathname);
+    }, 300)
+
+    document.addEventListener("DOMContentLoaded", function() {
+      window.scrollTo(0, 0);
+    });
+
+    let user = '<%- JSON.stringify(user) %>';
+    let doctor = '<%- JSON.stringify(doctor) %>';
+    let appointmets = '<%- JSON.stringify(appointmets) %>';
+    let resources = '<%- JSON.stringify(resources) %>';
+  </script>
+</body>
+
+</html>

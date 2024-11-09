@@ -1,0 +1,26 @@
+name: laboratorio2
+
+services:
+  mysql:
+    image: mysql:5
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=tp-lab2
+      - MYSQL_USER=nazgul
+      - MYSQL_PASSWORD=123456
+    ports:
+      - '3307:3306'
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - PMA_HOST=mysql
+    ports:
+      - '8080:80'
+    volumes:
+      - ./mysql_data:/var/lib/mysql
