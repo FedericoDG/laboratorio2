@@ -106,7 +106,8 @@ form.addEventListener('submit', (event) => {
 
 cancel.addEventListener('click', (event) => {
   event.preventDefault();
-  window.location.href = '/panel/turnos/ultimos';
+  window.location.href =
+    '/panel/turnos/ultimos?error=true&message=Se%20canceló%20la%20edición.%20No%20se%20guardaron%20los%20cambios';
 });
 
 // Form validations

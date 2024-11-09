@@ -113,6 +113,26 @@ export const doctorService = {
       throw new ServerError(error.message);
     }
   },
+  delete: async (userDocument) => {
+    try {
+      await db.user.update({
+        where: { userDocument },
+        data: { isActive: false },
+      });
+    } catch (error) {
+      throw new ServerError(error.message);
+    }
+  },
+  reactivate: async (userDocument) => {
+    try {
+      await db.user.update({
+        where: { patientDocument: +userDocument },
+        data: { isActive: true },
+      });
+    } catch (error) {
+      throw new ServerError(error.message);
+    }
+  },
 };
 
 export default doctorService;

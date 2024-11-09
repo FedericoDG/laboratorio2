@@ -168,10 +168,15 @@ const appointmentController = {
     const { doctorLicense } = doctor;
 
     let success = false;
+    let error = false;
     let message = '';
 
     if (req.query.success) {
       success = true;
+    }
+
+    if (req.query.error) {
+      error = true;
     }
 
     if (req.query.message) {
@@ -193,7 +198,7 @@ const appointmentController = {
       formatDate2,
       formatTime,
       success,
-      error: false,
+      error,
       message,
     });
   },

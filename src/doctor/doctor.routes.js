@@ -14,5 +14,7 @@ router.get('/crear', [isAuthorizedRoute, isAdminRoute], doctorController.viewCre
 router.get('/:doctorLicense', [isAuthorizedRoute, isAdminRoute], doctorController.viewEdit);
 router.post('/', [isAuthorizedRoute, createUserDto, createDoctorDto, isAdminRoute], doctorController.post);
 router.put('/', [isAuthorizedRoute, updateUserDto, createDoctorDto, isAdminRoute], doctorController.put);
+router.put('/:userDocument', [isAuthorizedRoute, isAdminRoute], doctorController.reactivate);
+router.delete('/:userDocument', [isAuthorizedRoute, isAdminRoute], doctorController.delete);
 
 export default router;
