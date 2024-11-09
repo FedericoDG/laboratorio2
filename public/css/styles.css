@@ -22,6 +22,10 @@ body {
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
+.uk-navbar {
+  background-color: #500c8f !important;
+}
+
 .main {
   min-width: 1200px !important;
   max-width: 1200px !important;
@@ -49,7 +53,6 @@ body {
 
 .footer {
   margin-bottom: 1rem;
-  font-family: 'Tolkien', sans-serif;
 }
 
 .hidden {
@@ -110,7 +113,7 @@ body {
 
 #footer span {
   margin: 0 !important;
-  font-size: 1.25rem;
+  font-size: 0.9rem;
 }
 
 textarea {

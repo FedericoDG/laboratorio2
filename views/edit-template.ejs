@@ -36,12 +36,14 @@
         <input type="hidden" name="_method" value="PUT">
         <fieldset class="uk-fieldset">
           <div class="form-group uk-margin-small">
+            <label for="name" class="uk-form-label">Nombre de la plantilla:</label>
             <input value="<%- noteTemplate.name %>" class="uk-input uk-margin-small" type="text" placeholder="Para-antecedentes-cardíacos" name="name" id="name" readonly>
+            <label for="" class="uk-form-label">Contenido:</label>
             <div name="content" id="content" style="height: 200px; max-height: 600px; overflow-y: auto;"></div>
           </div>
         </fieldset>
         <div class="uk-flex uk-flex-right">
-          <button class="uk-button uk-button-primary">Editar</button>
+          <button type="submit" class="uk-button uk-button-primary">Editar</button>
         </div>
       </form>
     </main>

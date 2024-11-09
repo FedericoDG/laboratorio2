@@ -216,7 +216,7 @@ const calendar = new FullCalendar.Calendar(calendarEl, {
 
         const initBtn = document.createElement('button');
         initBtn.setAttribute('class', 'uk-button uk-button-primary');
-        initBtn.textContent = 'Iniciar turno';
+        initBtn.textContent = 'Iniciar atención';
         initBtn.addEventListener('click', () => {
           window.location.href = `/panel/turnos/activo?patientDocument=${patientDocument}&date=${date}`;
         });

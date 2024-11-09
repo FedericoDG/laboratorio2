@@ -1,8 +1,9 @@
+import role from '../common/constant/role.js';
 import agendaService from './agenda.service.js';
 
 const agendaController = {
   get: async (req, res) => {
-    if (req.user.role === 'ADMIN') {
+    if (req.user.role === role.ADMIN) {
       const { resources } = await agendaService.get();
 
       return res.render('admin-schedule', { user: req.user, resources });

@@ -35,7 +35,7 @@
           <div class="uk-margin" style="position: relative;">
             <!-- Añadir position: relative aquí -->
             <div class="uk-flex uk-flex-center">
-              <input id="autocomplete" class="uk-input uk-form-large uk-width-large" type="text" placeholder="Nombre del médico..." autocomplete="off">
+              <input id="autocomplete" class="uk-input uk-form-large uk-width-large" type="text" placeholder="Nombre del médico..." autocomplete="off" autofocus>
               <ul id="autocomplete-list" class="uk-list uk-list-divider" style="display: none;">
                 <% resources.forEach((item) => { %>
                 <li class="autocomplete-item" data-id="<%= item.id %>"><%= item.title %></li>

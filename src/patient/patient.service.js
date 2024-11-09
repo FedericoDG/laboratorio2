@@ -36,10 +36,10 @@ export const patientService = {
       throw new ServerError(error.message);
     }
   },
-  post: async ({ patientDocument, lastname, name, birthDate }) => {
+  post: async ({ patientDocument, lastname, name, birthDate, gender, socialSecurity }) => {
     try {
       await db.patient.create({
-        data: { patientDocument, lastname, name, birthDate },
+        data: { patientDocument, lastname, name, birthDate, gender, socialSecurity },
       });
     } catch (error) {
       if (error.code === 'P2002') {
@@ -48,11 +48,11 @@ export const patientService = {
       throw new ServerError(error.message);
     }
   },
-  put: async ({ patientDocument, lastname, name, birthDate }) => {
+  put: async ({ patientDocument, lastname, name, birthDate, gender, socialSecurity }) => {
     try {
       await db.patient.update({
         where: { patientDocument },
-        data: { lastname, name, birthDate },
+        data: { lastname, name, birthDate, gender, socialSecurity },
       });
     } catch (error) {
       throw new ServerError(error.message);

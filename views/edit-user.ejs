@@ -36,20 +36,24 @@
         <fieldset class="uk-fieldset">
           <legend class="uk-legend uk-text-default uk-text-bold">Datos Personales</legend>
           <div class="form-group uk-margin-small">
+            <label for="userDocument" class="uk-form-label" style="display: block !important;">Documento:</label>
             <input value="<%- userToUpdate.userDocument%>" class="uk-input" type="text" placeholder="28126367" name="userDocument" id="userDocument" readonly>
           </div>
           <div class="form-group uk-margin-small">
-            <input value="<%- userToUpdate.lastname%>" class="uk-input" type="text" placeholder="Pérez" name="lastname" id="lastname">
+            <label for="lastname" class="uk-form-label" style="display: block !important;">Apellido:</label>
+            <input value="<%- userToUpdate.lastname%>" class="uk-input" type="text" placeholder="Pérez" name="lastname" id="lastname" autofocus>
           </div>
           <div class="form-group uk-margin-small">
+            <label for="name" class="uk-form-label" style="display: block !important;">Nombre:</label>
             <input value="<%- userToUpdate.name%>" class="uk-input" type="text" placeholder="Juan" name="name" id="name">
           </div>
           <div class="form-group uk-margin-small">
+            <label for="password" class="uk-form-label" style="display: block !important;">Contraseña:</label>
             <input class="uk-input" type="password" name="password" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" id="password">
           </div>
         </fieldset>
         <div class="uk-flex uk-flex-right">
-          <button class="uk-button uk-button-primary">Editar</button>
+          <button type="submit" class="uk-button uk-button-primary">Editar</button>
         </div>
       </form>
     </main>

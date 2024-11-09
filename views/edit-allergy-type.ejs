@@ -35,14 +35,16 @@
         <input type="hidden" name="_method" value="PUT">
         <fieldset class="uk-fieldset">
           <div class="form-group uk-margin-small">
+            <label for="allergyId" class="uk-form-label" style="display: block !important;">Código:</label>
             <input value="<%- allergyType.allergyId%>" class="uk-input" type="text" placeholder="28126367" name="allergyId" id="allergyId" readonly>
           </div>
           <div class="form-group uk-margin-small">
-            <input value="<%- allergyType.allergyName %>" class="uk-input" type="text" placeholder="A la pala" name="allergyName" id="allergyName">
+            <label for="allergyName" class="uk-form-label" style="display: block !important;">Nombre:</label>
+            <input value="<%- allergyType.allergyName %>" class="uk-input" type="text" placeholder="A la pala" name="allergyName" id="allergyName" autofocus>
           </div>
         </fieldset>
         <div class="uk-flex uk-flex-right">
-          <button class="uk-button uk-button-primary">Editar</button>
+          <button type="submit" type="submit" class="uk-button uk-button-primary">Editar</button>
         </div>
       </form>
     </main>

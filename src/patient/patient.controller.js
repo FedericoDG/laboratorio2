@@ -51,8 +51,15 @@ const patientController = {
   },
   post: async (req, res) => {
     try {
-      const { patientDocument, lastname, name, birthDate } = req.body;
-      await patientService.post({ patientDocument: +patientDocument, lastname, name, birthDate: new Date(birthDate) });
+      const { patientDocument, lastname, name, birthDate, gender, socialSecurity } = req.body;
+      await patientService.post({
+        patientDocument: +patientDocument,
+        lastname,
+        name,
+        birthDate: new Date(birthDate),
+        gender,
+        socialSecurity,
+      });
 
       res.render('create-patient', {
         user: req.user,
@@ -70,8 +77,15 @@ const patientController = {
     }
   },
   put: async (req, res) => {
-    const { patientDocument, lastname, name, birthDate } = req.body;
-    await patientService.put({ patientDocument: +patientDocument, lastname, name, birthDate: new Date(birthDate) });
+    const { patientDocument, lastname, name, birthDate, gender, socialSecurity } = req.body;
+    await patientService.put({
+      patientDocument: +patientDocument,
+      lastname,
+      name,
+      birthDate: new Date(birthDate),
+      gender,
+      socialSecurity,
+    });
 
     res.redirect('/panel/pacientes?success=true&message=Paciente actualizado con éxito');
   },

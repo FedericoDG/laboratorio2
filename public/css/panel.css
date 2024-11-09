@@ -88,3 +88,27 @@ dd {
     font-size: 1.5rem;
   }
 }
+
+.attended {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #08c953;
+  margin-right: 0.25rem;
+}
+
+.not-attended {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #0844c9;
+  margin-right: 0.25rem;
+}
+
+.cancelled {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #c80808;
+  margin-right: 0.25rem;
+}

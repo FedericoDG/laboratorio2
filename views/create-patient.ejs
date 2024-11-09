@@ -35,43 +35,39 @@
         <fieldset class="uk-fieldset">
           <label for="patientDocument" class="uk-form-label">DNI:</label>
           <div class="form-group uk-margin-small">
-            <input value="28126367" class="uk-input" type="number" placeholder="35125742" name="patientDocument" id="patientDocument">
+            <input value="" class="uk-input" type="number" placeholder="35125742" name="patientDocument" id="patientDocument" autofocus>
           </div>
           <div class="form-group uk-margin-small">
             <label for="lastname" class="uk-form-label">Apellido:</label>
-            <input value="Pérez" class="uk-input" type="text" placeholder="Pérez" name="lastname" id="lastname">
+            <input value="" class="uk-input" type="text" placeholder="Pérez" name="lastname" id="lastname">
           </div>
           <div class="form-group uk-margin-small">
             <label for="name" class="uk-form-label">Apellido:</label>
-            <input value="Juan" class="uk-input" type="text" placeholder="Juan" name="name" id="name">
+            <input value="" class="uk-input" type="text" placeholder="Juan" name="name" id="name">
           </div>
 
-          <div class="uk-margin">
-            <label for="gender" class="uk-form-label" style="display: block; margin-bottom: 0.5rem;">Sexo:</label>
-            <div uk-form-custom="target: > * > span:first-child">
-              <select aria-label="Custom controls" name="gender" id="gender">
-                <option value="MALE">Masculino</option>
-                <option value="FEMALE">Femenino </option>
+          <div class="uk-margin-small">
+            <label for="gender" class="uk-form-label" style="display: block !important;">Estado:</label>
+            <div id="statusContainer" class="uk-flex uk-flex-middle uk-flex-center">
+              <select class="uk-select small-select" name="gender" id="gender">
+                <option value="MALE" selected>Masculino</option>
+                <option value="FEMALE">Femenino</option>
               </select>
-              <button class="uk-button uk-button-default" type="button" tabindex="-1">
-                <span></span>
-                <span uk-icon="icon: chevron-down"></span>
-              </button>
             </div>
           </div>
 
           <div class="form-group uk-margin-small">
             <label for="socialSecurity" class="uk-form-label">Obra social:</label>
-            <input value="Medicus" class="uk-input" type="text" placeholder="Sancor Salud" name="socialSecurity" id="socialSecurity">
+            <input value="" class="uk-input" type="text" placeholder="Sancor Salud" name="socialSecurity" id="socialSecurity">
           </div>
 
           <div class="form-group uk-margin-small">
             <label for="birthDate" class="uk-form-label">Fecha de nacimiento:</label>
-            <input value="2000-01-01" class="uk-input" type="date" placeholder="" name="birthDate" id="birthDate">
+            <input value="" class="uk-input" type="date" placeholder="" name="birthDate" id="birthDate">
           </div>
         </fieldset>
         <div class="uk-flex uk-flex-right">
-          <button class="uk-button uk-button-primary">Crear</button>
+          <button type="submit" class="uk-button uk-button-primary">Crear</button>
         </div>
       </form>
     </main>

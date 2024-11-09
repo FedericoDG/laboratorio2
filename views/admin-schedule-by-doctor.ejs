@@ -47,14 +47,35 @@
       <h1>
         <h1 class="uk-text-lead uk-text-center">AGENDA - <%- resources[0].title.toUpperCase() %></h1>
 
-        <form class="" id="dateForm">
-          <div class="uk-flex uk-flex-right uk-flex-middle uk-section-small">
+
+        <div class="uk-flex uk-flex-between uk-margin-left">
+          <div class="uk-flex uk-flex-column uk-flex-middle uk-margin-remove">
+            <p class="uk-text-meta uk-margin-remove">REFERENCIA</p>
             <div class="uk-flex">
-              <input id="dateValue" class="uk-input" type="date" name="date" />
+              <div class="uk-flex uk-flex-middle uk-margin-right">
+                <div class="attended"></div>
+                <p class="uk-text-meta">ATENDIDOS</p>
+              </div>
+              <div class="uk-flex uk-flex-middle  uk-margin-right">
+                <div class="not-attended"></div>
+                <p class="uk-text-meta">NO ATENDIDOS</p>
+              </div>
+              <div class="uk-flex uk-flex-middle">
+                <div class="cancelled"></div>
+                <p class="uk-text-meta">CANCELADO</p>
+              </div>
             </div>
-            <button class="uk-button uk-button uk-margin-left" type="submit">Ir a fecha</button>
           </div>
-        </form>
+
+          <form class="" id="dateForm">
+            <div class="uk-flex uk-flex-right uk-flex-middle uk-section-small">
+              <div class="uk-flex">
+                <input id="dateValue" class="uk-input" type="date" name="date" autofocus />
+              </div>
+              <button class="uk-button uk-button uk-margin-left" type="submit">Ir a fecha</button>
+            </div>
+          </form>
+        </div>
 
         <!-- Contenedor del calendario -->
         <div id='calendar'></div>
@@ -62,7 +83,7 @@
         <!-- Tooltip donde mostraremos los datos del turno -->
         <div id="tooltip" class="tooltip"></div>
 
-        <!-- This is the modal -->
+        <!-- MODAL -->
         <div id="modal" uk-modal="animation: uk-animation-fade" class="uk-flex-top">
           <div class="uk-modal-dialog">
             <div class="uk-modal-header">
@@ -88,7 +109,7 @@
           </div>
         </div>
 
-        <!-- This is the modal -->
+        <!-- MODAL STATUS -->
         <div id="modalStatus" uk-modal="animation: uk-animation-fade" class="uk-flex-top">
           <div class="uk-modal-dialog">
             <div class="uk-modal-header">
