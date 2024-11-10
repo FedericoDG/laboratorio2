@@ -15,7 +15,7 @@
     "database:migrate": "npx prisma migrate dev",
     "database:seed": "npx prisma migrate reset --preview-feature --force",
     "postinstall": "prisma generate",
-    "build": "prisma generate && <actual-build-command>"
+    "build": "prisma generate"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
