@@ -125,18 +125,12 @@
               <thead>
                 <tr>
                   <th>Nombre</th>
-                  <th class="uk-text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <% activeAppointment.patient.medications.forEach((item) => { %>
                   <td><%= item.name %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <div uk-tooltip="title: Eliminar medicación">
-                      <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-medication" data-id="<%= item.name %>"></button>
-                    </div>
-                  </td>
                   <% }) %>
               </tbody>
             </table>
@@ -156,7 +150,6 @@
                   <th>Nombre</th>
                   <th>Desde</th>
                   <th>Hasta</th>
-                  <th class="uk-text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -172,11 +165,6 @@
                   <td><%= item.allergyType.allergyName %></td>
                   <td><%= formatDate(item.startDate) %></td>
                   <td><%= formatDate(item.endDate) %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <div uk-tooltip="title: Eliminar alergia">
-                      <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-allergy" data-id="<%= item.allergyId %>"></button>
-                    </div>
-                  </td>
                 </tr>
                 <% }) %>
               </tbody>
@@ -196,7 +184,6 @@
                   <th>Descripción</th>
                   <th>Desde</th>
                   <th>Hasta</th>
-                  <th class="uk-text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -205,14 +192,6 @@
                   <td><%= item.description %></td>
                   <td><%= formatDate(item.startDate) %></td>
                   <td><%= formatDate(item.endDate) %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <div uk-tooltip="title: Eliminar antecedente patológico">
-                        <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-pathological" data-id="<%= item.pathologicalHistoryId %>"></button>
-                      </div>
-                    </form>
-                  </td>
                 </tr>
                 <% }) %>
               </tbody>
@@ -232,7 +211,6 @@
                   <th>Descripción</th>
                   <th>Desde</th>
                   <th>Hasta</th>
-                  <th class="uk-text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -241,14 +219,6 @@
                   <td><%= item.description %></td>
                   <td><%= formatDate(item.startDate) %></td>
                   <td><%= formatDate(item.endDate) %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <div uk-tooltip="title: Eliminar hábito">
-                        <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-habit" data-id="<%= item.habitId %>"></button>
-                      </div>
-                    </form>
-                  </td>
                 </tr>
                 <% }) %>
               </tbody>
@@ -264,12 +234,15 @@
             <% if (activeAppointment.patient.appointments.filter((item) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense).length) { %>
             <div style="max-height: 400px; overflow: auto;">
               <% activeAppointment.patient.appointments
-      .filter((item) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense)
-      .forEach((item, index, array) => { %>
+              .filter((item) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense)
+              .forEach((item, index, array) => { %>
 
               <p class="uk-text-meta uk-text-emphasis" style="text-align: right;"><%= formatDate(item.date) %></p>
               <p class="uk-text-meta uk-text-emphasis">Razón de la consulta: <%= item.reason %></p>
-              <p class="uk-text-meta uk-text-emphasis">Diagnóstico: <%= item.diagnosis %></p>
+              <p class="uk-text-meta uk-text-emphasis">Diagnóstico/s:</p>
+              <% item.diagnosis.forEach((diagnostic) => { %>
+              <p class="uk-text-meta uk-text-emphasis"><%= diagnostic.description %></p>
+              <% }) %>
 
               <% if (index < array.length - 1) { %>
               <hr class="uk-divider-icon">
@@ -282,21 +255,23 @@
             <% } %>
           </div>
 
-          <!-- OTHER APPOINTMENTS OF OTHER DOCTORS -->
           <div class="uk-section uk-margin-top uk-section-muted uk-padding-small">
             <p style="margin-bottom: 0.5rem !important;">Consultas con otros profesionales:</p>
-            <% if (activeAppointment.patient.appointments.filter((item) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense).length) { %>
+            <% if (activeAppointment.patient.appointments.filter((item) => item.status === 'ATTENDED' && item.doctorLicense !== activeAppointment.doctorLicense).length) { %>
             <div style="max-height: 400px; overflow: auto;">
               <% activeAppointment.patient.appointments
-      .filter((item) => item.status === 'ATTENDED' && item.doctorLicense !== activeAppointment.doctorLicense)
-      .forEach((item, index, array) => { %>
+        .filter((item) => item.status === 'ATTENDED' && item.doctorLicense !== activeAppointment.doctorLicense)
+        .forEach((item, index, array) => { %>
 
-              <p class="uk-text-meta uk-text-danger" style="text-align: right;"><%= formatDate(item.date) %></p>
-              <p class="uk-text-meta uk-text-danger">
+              <p class="uk-text-meta uk-text-emphasis" style="text-align: right;"><%= formatDate(item.date) %></p>
+              <p class="uk-text-meta uk-text-emphasis">
                 Profesional: <%= item.doctor.user.lastname %> <%= item.doctor.user.name %> (<%= item.doctor.specialty %>)
               </p>
-              <p class="uk-text-meta uk-text-danger">Razón de la consulta: <%= item.reason %></p>
-              <p class="uk-text-meta uk-text-danger">Diagnóstico: <%= item.diagnosis %></p>
+              <p class="uk-text-meta uk-text-emphasis">Razón de la consulta: <%= item.reason %></p>
+              <p class="uk-text-meta uk-text-emphasis">Diagnóstico/s</p>
+              <% item.diagnosis.forEach((diagnostic) => { %>
+              <p class="uk-text-meta uk-text-emphasis"><%= diagnostic.description %></p>
+              <% }) %>
 
               <% if (index < array.length - 1) { %>
               <hr class="uk-divider-icon">

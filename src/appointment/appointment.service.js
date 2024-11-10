@@ -29,11 +29,21 @@ export const appointmentService = {
                       user: true,
                     },
                   },
+                  diagnosis: {
+                    orderBy: {
+                      diagnosisId: 'desc',
+                    },
+                  },
                 },
                 orderBy: {
                   date: 'desc',
                 },
               },
+            },
+          },
+          diagnosis: {
+            orderBy: {
+              date: 'desc',
             },
           },
         },
@@ -60,12 +70,14 @@ export const appointmentService = {
       throw new ServerError(error.message);
     }
   },
-  details: async ({ doctorLicense, patientDocument }) => {
+  details: async ({ doctorLicense, patientDocument, date }) => {
     try {
+      const fechaISO = DateTime.fromJSDate(new Date(date)).setZone('UTC-3').toISO();
       const activeAppointment = await db.appointment.findFirst({
         where: {
           doctorLicense,
           patientDocument,
+          date: fechaISO,
         },
         include: {
           patient: {
@@ -83,11 +95,21 @@ export const appointmentService = {
                       user: true,
                     },
                   },
+                  diagnosis: {
+                    orderBy: {
+                      diagnosisId: 'asc',
+                    },
+                  },
                 },
                 orderBy: {
                   date: 'desc',
                 },
               },
+            },
+          },
+          diagnosis: {
+            orderBy: {
+              date: 'desc',
             },
           },
         },
@@ -124,7 +146,16 @@ export const appointmentService = {
             date: new Date(date).toISOString(),
           },
         },
-        data: { status: 'ATTENDED', diagnosis },
+        data: { status: 'ATTENDED' },
+      });
+
+      await db.diagnosis.createMany({
+        data: createDiagnosis(diagnosis).map((diagnosis) => ({
+          ...diagnosis,
+          doctorLicense: doctorLicense,
+          patientDocument: patientDocument,
+          date: new Date(date).toISOString(),
+        })),
       });
 
       await db.evolution.create({
@@ -140,7 +171,32 @@ export const appointmentService = {
     }
   },
   finishEdition: async ({ doctorLicense, patientDocument, date, diagnosis, description }) => {
+    console.log(
+      createDiagnosis(diagnosis).map((diagnosis) => ({
+        ...diagnosis,
+        doctorLicense: doctorLicense,
+        patientDocument: patientDocument,
+        date: new Date(date).toISOString(),
+      })),
+    );
     try {
+      await db.diagnosis.deleteMany({
+        where: {
+          doctorLicense,
+          patientDocument,
+          date: new Date(date).toISOString(),
+        },
+      });
+
+      await db.diagnosis.createMany({
+        data: createDiagnosis(diagnosis).map((diagnosis) => ({
+          ...diagnosis,
+          doctorLicense: doctorLicense,
+          patientDocument: patientDocument,
+          date: new Date(date).toISOString(),
+        })),
+      });
+
       await db.appointment.update({
         where: {
           doctorLicense_patientDocument_date: {
@@ -149,7 +205,7 @@ export const appointmentService = {
             date: new Date(date).toISOString(),
           },
         },
-        data: { status: 'ATTENDED', diagnosis },
+        data: { status: 'ATTENDED' },
       });
 
       await db.evolution.update({
@@ -207,6 +263,12 @@ export const appointmentService = {
 
 function escapeJsonQuotes(description) {
   return description.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
+function createDiagnosis(diagnosis) {
+  return Object.keys(diagnosis)
+    .filter((key) => key !== 'noteTemplate') // Excluir 'noteTemplate'
+    .map((key) => ({ description: diagnosis[key] })); // Transformar a objetos con 'description'
 }
 
 export default appointmentService;

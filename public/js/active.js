@@ -75,7 +75,7 @@ noteTemplate.addEventListener('change', (event) => {
 const pristine = new Pristine(form);
 
 pristine.addValidator(
-  document.getElementById('diagnosis'),
+  document.getElementById('diagnosis-1'),
   (value) => {
     const regex = /^.{5,}$/;
     return regex.test(value);
@@ -86,7 +86,7 @@ pristine.addValidator(
 form.addEventListener('submit', (event) => {
   if (!pristine.validate() || document.getElementById('description').textContent === '') {
     Toastify({
-      text: 'Por favor, rellene todos los campos: Diagnóstico y Nueva evolución',
+      text: 'La consulta debe tener al menos un diagnóstico, y una evolución',
       duration: 4000,
       close: true,
       gravity: 'bottom',
@@ -99,6 +99,10 @@ form.addEventListener('submit', (event) => {
     }).showToast();
     event.preventDefault();
   }
+  /* event.preventDefault();
+  const formData = new FormData(form);
+  const object = Object.fromEntries(formData.entries());
+  console.log(object); */
 });
 
 cancel.addEventListener('click', (event) => {

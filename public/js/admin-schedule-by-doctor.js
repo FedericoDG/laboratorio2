@@ -211,8 +211,8 @@ const calendar = new FullCalendar.Calendar(calendarEl, {
       modal.show();
 
       if (info.event.extendedProps.status === 'NOT_ATTENDED') {
-        const date = info.event._def.publicId.split('#')[2];
         const patientDocument = info.event._def.publicId.split('#')[1];
+        const date = info.event._def.publicId.split('#')[2];
 
         const initBtn = document.createElement('button');
         initBtn.setAttribute('class', 'uk-button uk-button-primary');
@@ -225,7 +225,7 @@ const calendar = new FullCalendar.Calendar(calendarEl, {
         consultBtn.setAttribute('class', 'uk-button uk-button-default uk-margin-small-left');
         consultBtn.textContent = 'Ver Historia Clínica';
         consultBtn.addEventListener('click', () => {
-          window.location.href = `/panel/turnos/detalles?patientDocument=${patientDocument}`;
+          window.location.href = `/panel/turnos/detalles?patientDocument=${patientDocument}&date=${date}`;
         });
 
         btnContainer.appendChild(initBtn);
@@ -234,21 +234,25 @@ const calendar = new FullCalendar.Calendar(calendarEl, {
         // window.location.href = `/panel/turnos/activo?patientDocument=${patientDocument}&date=${date}`;
       } else if (info.event.extendedProps.status === 'ATTENDED') {
         const patientDocument = info.event._def.publicId.split('#')[1];
+        const date = info.event._def.publicId.split('#')[2];
+
         const consultBtn = document.createElement('button');
         consultBtn.setAttribute('class', 'uk-button uk-button-default');
         consultBtn.textContent = 'Ver Historia Clínica';
         consultBtn.addEventListener('click', () => {
-          window.location.href = `/panel/turnos/detalles?patientDocument=${patientDocument}`;
+          window.location.href = `/panel/turnos/detalles?patientDocument=${patientDocument}&date=${date}`;
         });
 
         btnContainer.appendChild(consultBtn);
       } else {
         const patientDocument = info.event._def.publicId.split('#')[1];
+        const date = info.event._def.publicId.split('#')[2];
+
         const consultBtn = document.createElement('button');
         consultBtn.setAttribute('class', 'uk-button uk-button-default');
         consultBtn.textContent = 'Ver Historia Clínica';
         consultBtn.addEventListener('click', () => {
-          window.location.href = `/panel/turnos/detalles?patientDocument=${patientDocument}`;
+          window.location.href = `/panel/turnos/detalles?patientDocument=${patientDocument}&date=${date}`;
         });
 
         btnContainer.appendChild(consultBtn);
@@ -455,12 +459,6 @@ function formatDateTime(text) {
   };
 }
 
-/* function parseDate(dateString) {
-  const [day, month, year] = dateString.split('/');
-
-  return new Date(year, month - 1, day);
-} */
-
 if (success) {
   Toastify({
     text: message,
@@ -502,6 +500,10 @@ UIkit.util.on('#modal', 'hidden', function () {
   patientDocumentValue.value = '';
 
   submitAppointment.disabled = true;
+});
+
+UIkit.util.on('#my-modal', 'hidden', function () {
+  btnContainer.innerHTML = '';
 });
 
 UIkit.util.on('#modalStatus', 'show', function () {

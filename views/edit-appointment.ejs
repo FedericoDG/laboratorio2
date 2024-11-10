@@ -107,8 +107,22 @@
                     <p style="margin-bottom: 0.5rem !important;">Nueva evolución:</p>
                     <div name="description" id="description" style="height: 200px; max-height: 600px; overflow-y: auto;"></div>
                   </div>
-                  <label for="">Diagnóstico:</label>
-                  <textarea class="uk-input uk-margin-small" type="text" placeholder="Para-antecedentes-cardíacos" name="diagnosis" id="diagnosis"><%- activeAppointment.diagnosis %></textarea>
+                  <div id="textareaContainer">
+                  </div>
+                  <!-- <div>
+                    <% activeAppointment.diagnosis.forEach((diagnostic, index) => { %>
+                    <label for="diagnosis-<%- index + 1 %>">Diagnóstico <%- index + 1 %> :</label>
+                    <textarea class="uk-input uk-margin-small" type="text" placeholder="Escriba el diagnóstico <% index + 1 %> aquí..." name="diagnosis-<%- index + 1 %>" id="diagnosis-<%- index + 1 %>"><%- diagnostic.description %></textarea>
+                    <% }) %>
+                  </div> -->
+                  <!--   <label for="">Diagnóstico:</label>
+                  <textarea class="uk-input uk-margin-small" type="text" placeholder="Para-antecedentes-cardíacos" name="diagnosis" id="diagnosis"><%- activeAppointment.diagnosis %></textarea> -->
+                  <div class="uk-flex uk-flex-center uk-margin-small">
+                    <div style="border: 1px solid #e5e5e5;padding: 8px; max-width: 300px;">
+                      <button type="button" class="uk-button uk-button-link uk-button-small uk-margin-right" onclick="addDiagnosisInput()"><span uk-icon="plus" class="uk-margin-small-right"></span>Diagnóstico</button>
+                      <button type="button" class="uk-button uk-button-link uk-button-small" onclick="removeLastDiagnosisInput()"><span uk-icon="minus" class="uk-margin-small-right"></span>Diagnóstico</button>
+                    </div>
+                  </div>
               </fieldset>
               <div class="uk-flex uk-flex-right">
                 <button type="button" id="cancel" class="uk-button uk-button uk-margin-right">Cancelar</button>
@@ -133,18 +147,12 @@
               <thead>
                 <tr>
                   <th>Nombre</th>
-                  <th class="uk-text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <% activeAppointment.patient.medications.forEach((item) => { %>
                   <td><%= item.name %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <div uk-tooltip="title: Eliminar medicación">
-                      <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-medication" data-id="<%= item.name %>"></button>
-                    </div>
-                  </td>
                   <% }) %>
               </tbody>
             </table>
@@ -176,7 +184,6 @@
                   <th>Nombre</th>
                   <th>Desde</th>
                   <th>Hasta</th>
-                  <th class="uk-text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -192,11 +199,6 @@
                   <td><%= item.allergyType.allergyName %></td>
                   <td><%= formatDate(item.startDate) %></td>
                   <td><%= formatDate(item.endDate) %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <div uk-tooltip="title: Eliminar alergia">
-                      <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-allergy" data-id="<%= item.allergyId %>"></button>
-                    </div>
-                  </td>
                 </tr>
                 <% }) %>
               </tbody>
@@ -228,7 +230,6 @@
                   <th>Descripción</th>
                   <th>Desde</th>
                   <th>Hasta</th>
-                  <th class="uk-text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -237,14 +238,6 @@
                   <td><%= item.description %></td>
                   <td><%= formatDate(item.startDate) %></td>
                   <td><%= formatDate(item.endDate) %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <div uk-tooltip="title: Eliminar antecedente patológico">
-                        <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-pathological" data-id="<%= item.pathologicalHistoryId %>"></button>
-                      </div>
-                    </form>
-                  </td>
                 </tr>
                 <% }) %>
               </tbody>
@@ -276,7 +269,6 @@
                   <th>Descripción</th>
                   <th>Desde</th>
                   <th>Hasta</th>
-                  <th class="uk-text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -285,14 +277,6 @@
                   <td><%= item.description %></td>
                   <td><%= formatDate(item.startDate) %></td>
                   <td><%= formatDate(item.endDate) %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <div uk-tooltip="title: Eliminar hábito">
-                        <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-habit" data-id="<%= item.habitId %>"></button>
-                      </div>
-                    </form>
-                  </td>
                 </tr>
                 <% }) %>
               </tbody>
@@ -311,16 +295,20 @@
           <!-- OTHER APPOINTMENTS OF THE DOCTOR -->
           <div class="uk-section uk-margin-top uk-section-muted uk-padding-small">
             <p style="margin-bottom: 0.5rem !important;">Consultas anteriores:</p>
-            <% if (activeAppointment.patient.appointments.filter((item, index) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense && index !== 0).length) { %>
+            <% if (activeAppointment.patient.appointments.filter((item, index) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense  && index !== 0).length >1) { %>
             <div style="max-height: 400px; overflow: auto;">
               <% activeAppointment.patient.appointments
-      .filter((item, index) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense)
-      .forEach((item, index, array) => { %>
+    .filter((item) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense)
+    .forEach((item, index, array) => { %>
+
               <% if (index !== 0) { %>
               <p class="uk-text-meta uk-text-emphasis" style="text-align: right;"><%= formatDate(item.date) %></p>
               <p class="uk-text-meta uk-text-emphasis">Razón de la consulta: <%= item.reason %></p>
-              <p class="uk-text-meta uk-text-emphasis">Diagnóstico: <%= item.diagnosis %></p>
+              <% item.diagnosis.forEach((diagnostic, index) => { %>
 
+              <p class="uk-text-meta uk-text-emphasis"><%= diagnostic.description %></p>
+
+              <% }) %>
               <% if (index < array.length - 1) { %>
               <hr class="uk-divider-icon">
               <% } %>
@@ -336,18 +324,21 @@
           <!-- OTHER APPOINTMENTS OF OTHER DOCTORS -->
           <div class="uk-section uk-margin-top uk-section-muted uk-padding-small">
             <p style="margin-bottom: 0.5rem !important;">Consultas con otros profesionales:</p>
-            <% if (activeAppointment.patient.appointments.filter((item) => item.status === 'ATTENDED' && item.doctorLicense !== activeAppointment.doctorLicense).length) { %>
+            <% if (activeAppointment.patient.appointments.filter((item) => item.status === 'ATTENDED' && item.doctorLicense === activeAppointment.doctorLicense).length) { %>
             <div style="max-height: 400px; overflow: auto;">
               <% activeAppointment.patient.appointments
       .filter((item) => item.status === 'ATTENDED' && item.doctorLicense !== activeAppointment.doctorLicense)
       .forEach((item, index, array) => { %>
 
-              <p class="uk-text-meta uk-text-danger" style="text-align: right;"><%= formatDate(item.date) %></p>
-              <p class="uk-text-meta uk-text-danger">
+              <p class="uk-text-meta uk-text-emphasis" style="text-align: right;"><%= formatDate(item.date) %></p>
+              <p class="uk-text-meta uk-text-emphasis">
                 Profesional: <%= item.doctor.user.lastname %> <%= item.doctor.user.name %> (<%= item.doctor.specialty %>)
               </p>
-              <p class="uk-text-meta uk-text-danger">Razón de la consulta: <%= item.reason %></p>
-              <p class="uk-text-meta uk-text-danger">Diagnóstico: <%= item.diagnosis %></p>
+              <p class="uk-text-meta uk-text-emphasis">Razón de la consulta: <%= item.reason %></p>
+              <p class="uk-text-meta uk-text-emphasis">Diagnóstico/s</p>
+              <% item.diagnosis.forEach((diagnostic) => { %>
+              <p class="uk-text-meta uk-text-emphasis"><%= diagnostic.description %></p>
+              <% }) %>
 
               <% if (index < array.length - 1) { %>
               <hr class="uk-divider-icon">
@@ -505,6 +496,73 @@
     let message = '<%- JSON.stringify(message) %>';
     let activeAppointment = '<%- JSON.stringify(activeAppointment) %>';
     let evolutions = '<%- JSON.stringify(evolutions) %>';
+    let diagnosis = '<%- JSON.stringify(activeAppointment.diagnosis) %>';
+  </script>
+
+  <script>
+    diagnosis = JSON.parse(diagnosis);
+    let diagnosisCount = 0; // Contador para los diagnósticos
+
+    function addDiagnosisInput() {
+      diagnosisCount++; // Incrementar el contador
+
+      // Crear la etiqueta (label) para el nuevo input
+      const newLabel = document.createElement("label");
+      newLabel.textContent = `Diagnóstico ${diagnosisCount}: `;
+      newLabel.setAttribute("for", `diagnosis-${diagnosisCount}`);
+
+      // Crear el nuevo input
+      const newInput = document.createElement("textarea");
+      newInput.name = `diagnosis-${diagnosisCount}`;
+      newInput.id = `diagnosis-${diagnosisCount}`;
+      newInput.className = "uk-input uk-margin-small";
+      newInput.placeholder = `Escriba el diagnóstico ${diagnosisCount} aquí...`;
+
+      // Agregar la etiqueta y el input al contenedor
+      const textareaContainer = document.getElementById("textareaContainer");
+      textareaContainer.appendChild(newLabel);
+      textareaContainer.appendChild(newInput);
+      textareaContainer.appendChild(document.createElement("br"));
+    }
+
+    function removeLastDiagnosisInput() {
+      const textareaContainer = document.getElementById("textareaContainer");
+      if (diagnosisCount > 1) { // Asegurarse de que siempre quede al menos un input
+        // Eliminar los últimos 3 elementos agregados (label, input y <br>)
+        textareaContainer.removeChild(textareaContainer.lastChild); // <br>
+        textareaContainer.removeChild(textareaContainer.lastChild); // input
+        textareaContainer.removeChild(textareaContainer.lastChild); // label
+        diagnosisCount--; // Reducir el contador
+      }
+    }
+
+    function addDiagnosisFilledInput(description) {
+      diagnosisCount++; // Incrementar el contador
+
+      // Crear la etiqueta (label) para el nuevo input
+      const newLabel = document.createElement("label");
+      newLabel.textContent = `Diagnóstico ${diagnosisCount}: `;
+      newLabel.setAttribute("for", `diagnosis-${diagnosisCount}`);
+
+      // Crear el nuevo input
+      const newInput = document.createElement("textarea");
+
+      newInput.name = `diagnosis-${diagnosisCount}`;
+      newInput.id = `diagnosis-${diagnosisCount}`;
+      newInput.className = "uk-input uk-margin-small";
+      newInput.placeholder = `Escriba el diagnóstico ${diagnosisCount} aquí...`;
+      newInput.textContent = description
+
+      // Agregar la etiqueta y el input al contenedor
+      const textareaContainer = document.getElementById("textareaContainer");
+      textareaContainer.appendChild(newLabel);
+      textareaContainer.appendChild(newInput);
+      textareaContainer.appendChild(document.createElement("br"));
+    }
+
+    diagnosis.forEach(element => {
+      addDiagnosisFilledInput(element.description)
+    });
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>

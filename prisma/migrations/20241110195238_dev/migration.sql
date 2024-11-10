@@ -25,7 +25,7 @@ CREATE TABLE `patient` (
     `patient_document` INTEGER NOT NULL,
     `lastname` VARCHAR(50) NOT NULL,
     `name` VARCHAR(50) NOT NULL,
-    `birthDate` DATE NOT NULL,
+    `birth_date` DATE NOT NULL,
     `gender` ENUM('MALE', 'FEMALE') NOT NULL DEFAULT 'MALE',
     `social_security` VARCHAR(100) NOT NULL DEFAULT 'PARTICULAR',
     `is_active` BOOLEAN NOT NULL DEFAULT true,
@@ -50,11 +50,21 @@ CREATE TABLE `appointment` (
     `date` DATE NOT NULL,
     `start_time` TIME NOT NULL,
     `end_time` TIME NOT NULL,
-    `reason` VARCHAR(100) NOT NULL,
-    `diagnosis` VARCHAR(500) NULL,
+    `reason` VARCHAR(100) NOT NULL DEFAULT 'Consulta general',
     `status` ENUM('NOT_ATTENDED', 'ATTENDED', 'CANCELLED') NOT NULL DEFAULT 'NOT_ATTENDED',
 
     PRIMARY KEY (`doctor_license`, `patient_document`, `date`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `diagnosis` (
+    `diagnosis_id` INTEGER NOT NULL AUTO_INCREMENT,
+    `doctorLicense` VARCHAR(36) NOT NULL,
+    `patientDocument` INTEGER NOT NULL,
+    `date` DATE NOT NULL,
+    `description` VARCHAR(500) NOT NULL,
+
+    PRIMARY KEY (`diagnosis_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -141,6 +151,9 @@ ALTER TABLE `appointment` ADD CONSTRAINT `appointment_doctor_license_fkey` FOREI
 
 -- AddForeignKey
 ALTER TABLE `appointment` ADD CONSTRAINT `appointment_patient_document_fkey` FOREIGN KEY (`patient_document`) REFERENCES `patient`(`patient_document`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `diagnosis` ADD CONSTRAINT `diagnosis_doctorLicense_patientDocument_date_fkey` FOREIGN KEY (`doctorLicense`, `patientDocument`, `date`) REFERENCES `appointment`(`doctor_license`, `patient_document`, `date`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `availability` ADD CONSTRAINT `availability_doctor_license_fkey` FOREIGN KEY (`doctor_license`) REFERENCES `doctor`(`doctor_license`) ON DELETE RESTRICT ON UPDATE CASCADE;

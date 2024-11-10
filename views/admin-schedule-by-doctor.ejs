@@ -26,6 +26,7 @@
     <!-- NAVBAR -->
     <%- include('./partials/navbar.ejs', {user: user}); %>
     <main class="uk-margin-auto uk-margin-bottom uk-margin-top uk-padding-small bg-white main">
+
       <div id="my-modal" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
           <h2 class="uk-modal-title"></h2>
@@ -49,8 +50,7 @@
 
 
         <div class="uk-flex uk-flex-between uk-margin-left">
-          <div class="uk-flex uk-flex-column uk-flex-middle uk-margin-remove">
-            <p class="uk-text-meta uk-margin-remove">REFERENCIA</p>
+          <div class="uk-flex uk-flex-column uk-flex-middle uk-flex-center  uk-margin-remove">
             <div class="uk-flex">
               <div class="uk-flex uk-flex-middle uk-margin-right">
                 <div class="attended"></div>
@@ -71,6 +71,7 @@
             <div class="uk-flex uk-flex-right uk-flex-middle uk-section-small">
               <div class="uk-flex">
                 <input id="dateValue" class="uk-input" type="date" name="date" autofocus />
+                <!--    <input onfocus="this.value = new Date().toISOString().split('T')[0]" id="dateValue" class="uk-input" type="date" name="date" autofocus /> -->
               </div>
               <button class="uk-button uk-button uk-margin-left" type="submit">Ir a fecha</button>
             </div>

@@ -88,7 +88,8 @@ const appointmentController = {
   },
   details: async (req, res) => {
     const { doctorLicense } = req.user.doctor;
-    const { patientDocument } = req.query;
+    const { patientDocument, date } = req.query;
+
     let success = false;
     let message = '';
 
@@ -103,6 +104,7 @@ const appointmentController = {
     const { activeAppointment, evolutions, allergyTypes } = await appointmentService.details({
       doctorLicense,
       patientDocument: +patientDocument,
+      date,
     });
 
     activeAppointment.date = new Date(activeAppointment.date).toISOString().split('T')[0];
@@ -126,9 +128,15 @@ const appointmentController = {
   finish: async (req, res) => {
     const { doctorLicense } = req.user.doctor;
     const { patientDocument, date } = req.query;
-    const { diagnosis, description } = req.body;
+    const { description, ...diagnosis } = req.body;
 
-    await appointmentService.finish({ doctorLicense, patientDocument: +patientDocument, date, diagnosis, description });
+    await appointmentService.finish({
+      doctorLicense,
+      patientDocument: +patientDocument,
+      date,
+      description,
+      diagnosis,
+    });
 
     return res.redirect(
       '/panel/agenda/doctor/' + doctorLicense + '?success=true&message=Turno%20finalizado%20con%20éxito',
@@ -137,7 +145,7 @@ const appointmentController = {
   finishEdition: async (req, res) => {
     const { doctorLicense } = req.user.doctor;
     const { patientDocument, date } = req.query;
-    const { diagnosis, description } = req.body;
+    const { description, ...diagnosis } = req.body;
 
     await appointmentService.finishEdition({
       doctorLicense,
@@ -146,6 +154,8 @@ const appointmentController = {
       diagnosis,
       description,
     });
+
+    // return res.json({ success: true, message: 'Turno editado con éxito' });
 
     return res.redirect(
       '/panel/turnos/ultimos' + '?success=true&message=Edición%20de%20turno%20finalizada%20con%20éxito',

@@ -104,14 +104,26 @@ model Appointment {
   startTime       DateTime           @map("start_time") @db.Time
   endTime         DateTime           @map("end_time") @db.Time
   reason          String             @default("Consulta general") @db.VarChar(100)
-  diagnosis       String?            @db.VarChar(500)
   status          ConsultationStatus @default(NOT_ATTENDED)
   // Relations
   doctor          Doctor             @relation(fields: [doctorLicense], references: [doctorLicense])
   patient         Patient            @relation(fields: [patientDocument], references: [patientDocument])
+  diagnosis       Diagnosis[]
 
   @@id([doctorLicense, patientDocument, date])
   @@map("appointment")
+}
+
+model Diagnosis {
+  diagnosisId     Int         @id @default(autoincrement()) @map("diagnosis_id")
+  doctorLicense   String      @db.VarChar(36)
+  patientDocument Int         @db.Int
+  date            DateTime    @db.Date
+  description     String      @db.VarChar(500)
+  // Relations
+  Appointment     Appointment @relation(fields: [doctorLicense, patientDocument, date], references: [doctorLicense, patientDocument, date])
+
+  @@map("diagnosis")
 }
 
 model Availability {
