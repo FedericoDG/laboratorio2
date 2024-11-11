@@ -155,8 +155,6 @@ const appointmentController = {
       description,
     });
 
-    // return res.json({ success: true, message: 'Turno editado con éxito' });
-
     return res.redirect(
       '/panel/turnos/ultimos' + '?success=true&message=Edición%20de%20turno%20finalizada%20con%20éxito',
     );
@@ -241,13 +239,13 @@ function formatTime(dateString) {
 
 function unescapeHtmlJsonQuotes(escapedString) {
   return escapedString
-    .replace(/\\&quot;/g, '"') // Reemplaza \&quot; por "
-    .replace(/\\"/g, '"') // Reemplaza \" por "
-    .replace(/\\'/g, "'") // Reemplaza \' por '
-    .replace(/\\\\/g, '\\') // Reemplaza \\ por \
-    .replace(/&gt;/g, '>') // Reemplaza &gt; por >
-    .replace(/&lt;/g, '<') // Reemplaza &lt; por <
-    .replace(/&amp;/g, '&'); // Reemplaza &amp; por &
+    .replace(/\\&quot;/g, '"')
+    .replace(/\\"/g, '"')
+    .replace(/\\'/g, "'")
+    .replace(/\\\\/g, '\\')
+    .replace(/&gt;/g, '>')
+    .replace(/&lt;/g, '<')
+    .replace(/&amp;/g, '&');
 }
 
 export default appointmentController;

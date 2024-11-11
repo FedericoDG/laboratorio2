@@ -172,45 +172,48 @@ export const appointmentService = {
   },
   finishEdition: async ({ doctorLicense, patientDocument, date, diagnosis, description }) => {
     try {
-      await db.diagnosis.deleteMany({
-        where: {
-          doctorLicense,
-          patientDocument,
-          date: new Date(date).toISOString(),
-        },
-      });
+      // TRANSACTION
+      await db.$transaction(async (prisma) => {
+        await prisma.diagnosis.deleteMany({
+          where: {
+            doctorLicense,
+            patientDocument,
+            date: new Date(date).toISOString(),
+          },
+        });
 
-      await db.diagnosis.createMany({
-        data: createDiagnosis(diagnosis).map((diagnosis) => ({
-          ...diagnosis,
-          doctorLicense: doctorLicense,
-          patientDocument: patientDocument,
-          date: new Date(date).toISOString(),
-        })),
-      });
-
-      await db.appointment.update({
-        where: {
-          doctorLicense_patientDocument_date: {
+        await prisma.diagnosis.createMany({
+          data: createDiagnosis(diagnosis).map((diagnosis) => ({
+            ...diagnosis,
             doctorLicense: doctorLicense,
             patientDocument: patientDocument,
             date: new Date(date).toISOString(),
-          },
-        },
-        data: { status: 'ATTENDED' },
-      });
+          })),
+        });
 
-      await db.evolution.update({
-        where: {
-          doctorLicense_patientDocument_date: {
-            doctorLicense: doctorLicense,
-            patientDocument: patientDocument,
-            date: new Date(date).toISOString(),
+        await prisma.appointment.update({
+          where: {
+            doctorLicense_patientDocument_date: {
+              doctorLicense: doctorLicense,
+              patientDocument: patientDocument,
+              date: new Date(date).toISOString(),
+            },
           },
-        },
-        data: {
-          description: escapeJsonQuotes(description),
-        },
+          data: { status: 'ATTENDED' },
+        });
+
+        await prisma.evolution.update({
+          where: {
+            doctorLicense_patientDocument_date: {
+              doctorLicense: doctorLicense,
+              patientDocument: patientDocument,
+              date: new Date(date).toISOString(),
+            },
+          },
+          data: {
+            description: escapeJsonQuotes(description),
+          },
+        });
       });
     } catch (error) {
       throw new ServerError(error.message);
