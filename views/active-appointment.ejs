@@ -87,7 +87,7 @@
               <fieldset class="uk-fieldset">
                 <div class="form-group uk-margin-small">
                   <div class="uk-margin">
-                    <label for="" style="display: block !important;">Plantillas:</label>
+                    <label for="" style="display: block !important; margin-bottom: 8px;">Plantillas:</label>
                     <div uk-form-custom="target: > * > span:first-child">
                       <select aria-label="Custom controls" name="noteTemplate" id="noteTemplate">
                         <option value="">Seleccione una plantilla...</option>
@@ -124,194 +124,219 @@
         </div>
 
         <div class="uk-width-xlarge">
-          <!-- MEDICATION -->
-          <div class="uk-section uk-section-muted uk-padding-small">
-            <% if (activeAppointment.patient.medications.length) { %>
-            <table class="uk-table uk-table-divider uk-table-small">
-              <legend>Medicación</legend>
-              <div class="uk-margin uk-flex uk-flex-right">
-                <button class="uk-button uk-button-primary add">
-                  <span uk-icon="plus-circle"></span>
-                  <a class="uk-link-reset" href="#offcanvas-medication" uk-toggle>Nueva medicación</a>
-                </button>
-              </div>
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th class="uk-text-center" style="width: 50px !important;">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <% activeAppointment.patient.medications.forEach((item) => { %>
-                  <td><%= item.name %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <div uk-tooltip="title: Eliminar medicación">
-                      <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-medication" data-id="<%= item.name %>"></button>
-                    </div>
-                  </td>
-                  <% }) %>
-              </tbody>
-            </table>
-            <% }else {%>
-            <div class="uk-margin uk-flex uk-flex-right">
-              <button class="uk-button uk-button-primary add">
-                <span uk-icon="plus-circle"></span>
-                <a class="uk-link-reset" href="#offcanvas-medication" uk-toggle>Nueva medicación</a>
-              </button>
-            </div>
-            <h2 class="uk-text-meta uk-text-center">Actualmente no consume ningún tipo de medicación</h2>
-            <% } %>
-          </div>
+          <ul uk-accordion="multiple: true" class="uk-section-muted" style="padding: 14px !important;">
 
-          <!-- ALLERGIES -->
-          <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
-            <% if (activeAppointment.patient.allergies.length) { %>
-            <table class="uk-table uk-table-divider uk-table-small">
-              <legend>Alergias</legend>
-              <div class="uk-margin uk-flex uk-flex-right">
-                <button class="uk-button uk-button-primary add">
-                  <span uk-icon="plus-circle"></span>
-                  <a class="uk-link-reset" href="#offcanvas-allergy" uk-toggle>Nueva alergia</a>
-                </button>
-              </div>
-              <thead>
-                <tr>
-                  <th>Grado</th>
-                  <th>Nombre</th>
-                  <th>Desde</th>
-                  <th>Hasta</th>
-                  <th class="uk-text-center" style="max-width: 50px !important;">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% activeAppointment.patient.allergies.forEach((item) => { %>
-                <tr>
-                  <% if (item.severity === 'LOW') { %>
-                  <td><span class="uk-label uk-label-success">Leve</span></td>
-                  <% } else if (item.severity === 'MEDIUM') { %>
-                  <td><span class="uk-label uk-label-warning">Moderado</span></td>
-                  <% } else { %>
-                  <td><span class="uk-label uk-label-danger">Severo</span></td>
+            <!-- MEDICATION -->
+            <li>
+              <a class="uk-accordion-title" href>Medicamentos</a>
+              <div class="uk-accordion-content">
+                <div class="uk-section uk-section-muted uk-padding-small">
+                  <% if (activeAppointment.patient.medications.length) { %>
+                  <table class="uk-table uk-table-divider uk-table-small">
+                    <legend>Medicación</legend>
+                    <div class="uk-margin uk-flex uk-flex-right">
+                      <button class="uk-button uk-button-link primary uk-button-small">
+                        <span uk-icon="plus-circle"></span>
+                        <a class="uk-link-reset" href="#offcanvas-medication" uk-toggle>Agregar</a>
+                      </button>
+                    </div>
+                    <thead>
+                      <tr>
+                        <th>Nombre</th>
+                        <th class="uk-text-center" style="width: 50px !important;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <% activeAppointment.patient.medications.forEach((item) => { %>
+                        <td><%= item.name %></td>
+                        <td class=" uk-flex uk-flex-center">
+                          <div uk-tooltip="title: Eliminar medicación">
+                            <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-medication" data-id="<%= item.name %>"></button>
+                          </div>
+                        </td>
+                        <% }) %>
+                    </tbody>
+                  </table>
+                  <% }else {%>
+                  <div class="uk-margin uk-flex uk-flex-right">
+                    <button class="uk-button uk-button-link primary uk-button-small">
+                      <span uk-icon="plus-circle"></span>
+                      <a class="uk-link-reset" href="#offcanvas-medication" uk-toggle>Agregar</a>
+                    </button>
+                  </div>
+                  <h2 class="uk-text-meta uk-text-center">No consume ningún tipo de medicación</h2>
                   <% } %>
-                  <td><%= item.allergyType.allergyName %></td>
-                  <td><%= formatDate(item.startDate) %></td>
-                  <td><%= formatDate(item.endDate) %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <div uk-tooltip="title: Eliminar alergia">
-                      <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-allergy" data-id="<%= item.allergyId %>"></button>
+                </div>
+              </div>
+            </li>
+
+            <!-- ALLERGIES -->
+            <li>
+              <a class="uk-accordion-title" href>Alergias</a>
+              <div class="uk-accordion-content">
+                <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
+                  <% if (activeAppointment.patient.allergies.length) { %>
+                  <table class="uk-table uk-table-divider uk-table-small">
+                    <legend>Alergias</legend>
+                    <div class="uk-margin uk-flex uk-flex-right">
+                      <button class="uk-button uk-button-link primary uk-button-small">
+                        <span uk-icon="plus-circle"></span>
+                        <a class="uk-link-reset" href="#offcanvas-allergy" uk-toggle>Agregar</a>
+                      </button>
                     </div>
-                  </td>
-                </tr>
-                <% }) %>
-              </tbody>
-            </table>
-            <% }else {%>
-            <div class="uk-margin uk-flex uk-flex-right">
-              <button class="uk-button uk-button-primary add">
-                <span uk-icon="plus-circle"></span>
-                <a class="uk-link-reset" href="#offcanvas-allergy" uk-toggle>Nueva alergia</a>
-              </button>
-            </div>
-            <h2 class="uk-text-meta uk-text-center">Actualmente tiene ningún tipo de alergia</h2>
-            <% } %>
-          </div>
-
-          <!-- PATHOLOGICAL HISTORY -->
-          <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
-            <% if (activeAppointment.patient.pathologicalHistory.length) { %>
-            <table class="uk-table uk-table-divider uk-table-small">
-              <legend>Antecedentes Patológicos</legend>
-              <div class="uk-margin uk-flex uk-flex-right">
-                <button class="uk-button uk-button-primary add">
-                  <span uk-icon="plus-circle"></span>
-                  <a class="uk-link-reset" href="#offcanvas-pathological-history" uk-toggle>Nuevo antecedente</a>
-                </button>
+                    <thead>
+                      <tr>
+                        <th>Grado</th>
+                        <th>Nombre</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                        <th class="uk-text-center" style="max-width: 50px !important;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% activeAppointment.patient.allergies.forEach((item) => { %>
+                      <tr>
+                        <% if (item.severity === 'LOW') { %>
+                        <td><span class="uk-label uk-label-success">Leve</span></td>
+                        <% } else if (item.severity === 'MEDIUM') { %>
+                        <td><span class="uk-label uk-label-warning">Moderado</span></td>
+                        <% } else { %>
+                        <td><span class="uk-label uk-label-danger">Severo</span></td>
+                        <% } %>
+                        <td><%= item.allergyType.allergyName %></td>
+                        <td><%= formatDate(item.startDate) %></td>
+                        <td><%= formatDate(item.endDate) %></td>
+                        <td class=" uk-flex uk-flex-center">
+                          <div uk-tooltip="title: Eliminar alergia">
+                            <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-allergy" data-id="<%= item.allergyId %>"></button>
+                          </div>
+                        </td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                  <% }else {%>
+                  <div class="uk-margin uk-flex uk-flex-right">
+                    <button class="uk-button uk-button-link primary uk-button-small">
+                      <span uk-icon="plus-circle"></span>
+                      <a class="uk-link-reset" href="#offcanvas-allergy" uk-toggle>Agregar</a>
+                    </button>
+                  </div>
+                  <h2 class="uk-text-meta uk-text-center">No tiene ningún tipo de alergia</h2>
+                  <% } %>
+                </div>
               </div>
-              <thead>
-                <tr>
-                  <th>Descripción</th>
-                  <th>Desde</th>
-                  <th>Hasta</th>
-                  <th class="uk-text-center" style="max-width: 50px !important;">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% activeAppointment.patient.pathologicalHistory.forEach((item) => { %>
-                <tr>
-                  <td><%= item.description %></td>
-                  <td><%= formatDate(item.startDate) %></td>
-                  <td><%= formatDate(item.endDate) %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <div uk-tooltip="title: Eliminar antecedente patológico">
-                        <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-pathological" data-id="<%= item.pathologicalHistoryId %>"></button>
-                      </div>
-                    </form>
-                  </td>
-                </tr>
-                <% }) %>
-              </tbody>
-            </table>
-            <% }else {%>
-            <div class="uk-margin uk-flex uk-flex-right">
-              <button class="uk-button uk-button-primary add">
-                <span uk-icon="plus-circle"></span>
-                <a class="uk-link-reset" href="#offcanvas-pathological-history" uk-toggle>Nuevo antecedente</a>
-              </button>
-            </div>
-            <h2 class="uk-text-meta uk-text-center">Actualmente tiene ningún tipo de antecedente patológico</h2>
-            <% } %>
-          </div>
 
-          <!-- HABITS -->
-          <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
-            <% if (activeAppointment.patient.habits.length) { %>
-            <table class="uk-table uk-table-divider uk-table-small">
-              <legend>Hábitos</legend>
-              <div class="uk-margin uk-flex uk-flex-right">
-                <button class="uk-button uk-button-primary add">
-                  <span uk-icon="plus-circle"></span>
-                  <a class="uk-link-reset" href="#offcanvas-habits" uk-toggle>Nuevo hábito</a>
-                </button>
+            </li>
+
+            <!-- PATHOLOGICAL HISTORY -->
+            <li>
+              <a class="uk-accordion-title" href>Antecedentes Patológicos</a>
+              <div class="uk-accordion-content">
+                <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
+                  <% if (activeAppointment.patient.pathologicalHistory.length) { %>
+                  <table class="uk-table uk-table-divider uk-table-small">
+                    <legend>Antecedentes Patológicos</legend>
+                    <div class="uk-margin uk-flex uk-flex-right">
+                      <button class="uk-button uk-button-link primary uk-button-small">
+                        <span uk-icon="plus-circle"></span>
+                        <a class="uk-link-reset" href="#offcanvas-pathological-history" uk-toggle>Agregar</a>
+                      </button>
+                    </div>
+                    <thead>
+                      <tr>
+                        <th>Descripción</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                        <th class="uk-text-center" style="max-width: 50px !important;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% activeAppointment.patient.pathologicalHistory.forEach((item) => { %>
+                      <tr>
+                        <td><%= item.description %></td>
+                        <td><%= formatDate(item.startDate) %></td>
+                        <td><%= formatDate(item.endDate) %></td>
+                        <td class=" uk-flex uk-flex-center">
+                          <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <div uk-tooltip="title: Eliminar antecedente patológico">
+                              <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-pathological" data-id="<%= item.pathologicalHistoryId %>"></button>
+                            </div>
+                          </form>
+                        </td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                  <% }else {%>
+                  <div class="uk-margin uk-flex uk-flex-right">
+                    <button class="uk-button uk-button-link primary uk-button-small">
+                      <span uk-icon="plus-circle"></span>
+                      <a class="uk-link-reset" href="#offcanvas-pathological-history" uk-toggle>Agregar</a>
+                    </button>
+                  </div>
+                  <h2 class="uk-text-meta uk-text-center">No tiene ningún tipo de antecedente patológico</h2>
+                  <% } %>
+                </div>
               </div>
-              <thead>
-                <tr>
-                  <th>Descripción</th>
-                  <th>Desde</th>
-                  <th>Hasta</th>
-                  <th class="uk-text-center" style="max-width: 50px !important;">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% activeAppointment.patient.habits.forEach((item) => { %>
-                <tr>
-                  <td><%= item.description %></td>
-                  <td><%= formatDate(item.startDate) %></td>
-                  <td><%= formatDate(item.endDate) %></td>
-                  <td class=" uk-flex uk-flex-center">
-                    <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
-                      <input type="hidden" name="_method" value="DELETE">
-                      <div uk-tooltip="title: Eliminar hábito">
-                        <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-habit" data-id="<%= item.habitId %>"></button>
-                      </div>
-                    </form>
-                  </td>
-                </tr>
-                <% }) %>
-              </tbody>
-            </table>
-            <% }else {%>
-            <div class="uk-margin uk-flex uk-flex-right">
-              <button class="uk-button uk-button-primary add">
-                <span uk-icon="plus-circle"></span>
-                <a class="uk-link-reset" href="#offcanvas-habits" uk-toggle>Nuevo hábito</a>
-              </button>
-            </div>
-            <h2 class="uk-text-meta uk-text-center">Actualmente tiene ningún tipo de hábito</h2>
-            <% } %>
-          </div>
+            </li>
+
+            <!-- HABITS -->
+            <li>
+              <a class="uk-accordion-title" href>Hábitos</a>
+              <div class="uk-accordion-content">
+                <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
+                  <% if (activeAppointment.patient.habits.length) { %>
+                  <table class="uk-table uk-table-divider uk-table-small">
+                    <legend>Hábitos</legend>
+                    <div class="uk-margin uk-flex uk-flex-right">
+                      <button class="uk-button uk-button-link primary uk-button-small">
+                        <span uk-icon="plus-circle"></span>
+                        <a class="uk-link-reset" href="#offcanvas-habits" uk-toggle>Agregar</a>
+                      </button>
+                    </div>
+                    <thead>
+                      <tr>
+                        <th>Descripción</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                        <th class="uk-text-center" style="max-width: 50px !important;">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% activeAppointment.patient.habits.forEach((item) => { %>
+                      <tr>
+                        <td><%= item.description %></td>
+                        <td><%= formatDate(item.startDate) %></td>
+                        <td><%= formatDate(item.endDate) %></td>
+                        <td class=" uk-flex uk-flex-center">
+                          <form action="/panel/pacientes/<%= item.patientDocument %>" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <div uk-tooltip="title: Eliminar hábito">
+                              <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-habit" data-id="<%= item.habitId %>"></button>
+                            </div>
+                          </form>
+                        </td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                  <% }else {%>
+                  <div class="uk-margin uk-flex uk-flex-right">
+                    <button class="uk-button uk-button-link primary uk-button-small">
+                      <span uk-icon="plus-circle"></span>
+                      <a class="uk-link-reset" href="#offcanvas-habits" uk-toggle>Agregar</a>
+                    </button>
+                  </div>
+                  <h2 class="uk-text-meta uk-text-center">No tiene ningún tipo de hábito</h2>
+                  <% } %>
+                </div>
+              </div>
+            </li>
+
+          </ul>
 
           <!-- OTHER APPOINTMENTS OF THE DOCTOR -->
           <div class="uk-section uk-margin-top uk-section-muted uk-padding-small">
