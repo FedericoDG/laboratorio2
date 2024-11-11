@@ -171,14 +171,6 @@ export const appointmentService = {
     }
   },
   finishEdition: async ({ doctorLicense, patientDocument, date, diagnosis, description }) => {
-    console.log(
-      createDiagnosis(diagnosis).map((diagnosis) => ({
-        ...diagnosis,
-        doctorLicense: doctorLicense,
-        patientDocument: patientDocument,
-        date: new Date(date).toISOString(),
-      })),
-    );
     try {
       await db.diagnosis.deleteMany({
         where: {
@@ -267,8 +259,8 @@ function escapeJsonQuotes(description) {
 
 function createDiagnosis(diagnosis) {
   return Object.keys(diagnosis)
-    .filter((key) => key !== 'noteTemplate') // Excluir 'noteTemplate'
-    .map((key) => ({ description: diagnosis[key] })); // Transformar a objetos con 'description'
+    .filter((key) => key !== 'noteTemplate' && diagnosis[key] !== '')
+    .map((key) => ({ description: diagnosis[key] }));
 }
 
 export default appointmentService;

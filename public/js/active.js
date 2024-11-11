@@ -20,7 +20,6 @@ const quill = new Quill('#description', {
       [{ header: [1, 2, false] }],
       [{ align: [] }],
       ['bold', 'italic', 'underline', 'strike'],
-      ['blockquote'],
       [{ list: 'ordered' }, { list: 'bullet' }],
       [{ color: [] }, { background: [] }],
       ['clean'],
@@ -68,7 +67,7 @@ if (error) {
 }
 
 noteTemplate.addEventListener('change', (event) => {
-  quill.root.innerHTML = event.target.value;
+  quill.root.innerHTML = unescapeHtmlJsonQuotes(event.target.value);
 });
 
 // Form validations
@@ -99,10 +98,6 @@ form.addEventListener('submit', (event) => {
     }).showToast();
     event.preventDefault();
   }
-  /* event.preventDefault();
-  const formData = new FormData(form);
-  const object = Object.fromEntries(formData.entries());
-  console.log(object); */
 });
 
 cancel.addEventListener('click', (event) => {
@@ -588,4 +583,15 @@ function validarFechas(startDate, endDate) {
   }
 
   return true;
+}
+
+function unescapeHtmlJsonQuotes(escapedString) {
+  return escapedString
+    .replace(/\\&quot;/g, '"') // Reemplaza \&quot; por "
+    .replace(/\\"/g, '"') // Reemplaza \" por "
+    .replace(/\\'/g, "'") // Reemplaza \' por '
+    .replace(/\\\\/g, '\\') // Reemplaza \\ por \
+    .replace(/&gt;/g, '>') // Reemplaza &gt; por >
+    .replace(/&lt;/g, '<') // Reemplaza &lt; por <
+    .replace(/&amp;/g, '&'); // Reemplaza &amp; por &
 }

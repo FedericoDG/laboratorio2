@@ -21,7 +21,7 @@ const quill = new Quill('#content', {
 
 if (!isCreateScreen) {
   noteTemplate = JSON.parse(noteTemplate);
-  quill.root.innerHTML = noteTemplate.content;
+  quill.root.innerHTML = unescapeHtmlJsonQuotes(noteTemplate.content);
 }
 
 const hiddenInput = document.createElement('input');
@@ -78,3 +78,14 @@ pristine.addValidator(
 form.addEventListener('submit', (event) => {
   if (!pristine.validate()) event.preventDefault();
 });
+
+function unescapeHtmlJsonQuotes(escapedString) {
+  return escapedString
+    .replace(/\\&quot;/g, '"') // Reemplaza \&quot; por "
+    .replace(/\\"/g, '"') // Reemplaza \" por "
+    .replace(/\\'/g, "'") // Reemplaza \' por '
+    .replace(/\\\\/g, '\\') // Reemplaza \\ por \
+    .replace(/&gt;/g, '>') // Reemplaza &gt; por >
+    .replace(/&lt;/g, '<') // Reemplaza &lt; por <
+    .replace(/&amp;/g, '&'); // Reemplaza &amp; por &
+}

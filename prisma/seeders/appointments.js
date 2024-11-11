@@ -47,25 +47,7 @@ function obtenerHoyYSiguientesDiasHabiles() {
 }
 const proximosDiasHabiles = obtenerHoyYSiguientesDiasHabiles();
 
-// const proximosDiasHabiles = obtenerHoyYSiguientesDiasHabiles();
-
 export const appointments = [
-  /*   {
-    doctorLicense: 'MP3001',
-    patientDocument: 20000001,
-    date: DateTime.fromISO(proximosDiasHabiles[0], { zone: 'UTC' }),
-    startTime: DateTime.fromISO('14:00:00', { zone: 'UTC' }),
-    endTime: DateTime.fromISO('14:30:00', { zone: 'UTC' }),
-    reason: 'Vuelve por control',
-  },
-  {
-    doctorLicense: 'MP3002',
-    patientDocument: 20000001,
-    date: DateTime.fromISO(proximosDiasHabiles[0], { zone: 'UTC' }),
-    startTime: DateTime.fromISO('18:00:00', { zone: 'UTC' }),
-    endTime: DateTime.fromISO('18:30:00', { zone: 'UTC' }),
-    reason: 'Quiere hacerse un chequeo más exaustivo',
-  }, */
   {
     doctorLicense: 'MP3001',
     patientDocument: 20000002,

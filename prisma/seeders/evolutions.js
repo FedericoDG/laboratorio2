@@ -390,24 +390,4 @@ export const evolutions = [
       '<h1>Plantilla 1 del médico MP3003</h1><h2>Paciente: 20000035</h2><p>Las lesiones en las manos incluyen contusiones y un esguince leve en la muñeca. No se observan fracturas en las radiografías. Se ha iniciado tratamiento con reposo, inmovilización parcial y analgésicos. Se recomienda fisioterapia para recuperar movilidad. Seguimiento en una semana para evaluar la recuperación.</p>',
     date: DateTime.fromISO(fechasPasadas[4], { zone: 'UTC' }),
   },
-
-  /*  {
-    doctorLicense: 'MP3001',
-    patientDocument: 20000001,
-    description: '<h1>Plantilla 1 Dele médico MP3001</h1><h2>Paciente: </h2><p>Atención #1 con este médico</p>',
-    date: DateTime.fromISO(fechasPasadas[0], { zone: 'UTC' }),
-  },
-  {
-    doctorLicense: 'MP3001',
-    patientDocument: 20000001,
-    description: '<h1>Plantilla 1 del médico MP3002</h1><p>La presión arterial se ha disminuido</p>',
-    date: DateTime.fromISO(fechasPasadas[4], { zone: 'UTC' }),
-  },
-  {
-    doctorLicense: 'MP3002',
-    patientDocument: 20000001,
-    description:
-      '<h1>Plantilla 3</h1><p>Se ha detectado un aumento en la presión arterial, se recomienda ajustar el estilo de vida</p>',
-    date: DateTime.fromISO(fechasPasadas[2], { zone: 'UTC' }),
-  }, */
 ];

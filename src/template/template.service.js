@@ -28,7 +28,7 @@ export const templateService = {
         data: {
           doctorLicense,
           name,
-          content,
+          content: escapeJsonQuotes(content),
         },
       });
     } catch (error) {
@@ -80,5 +80,9 @@ export const templateService = {
     }
   },
 };
+
+function escapeJsonQuotes(description) {
+  return description.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
 
 export default templateService;

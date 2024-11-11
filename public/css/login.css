@@ -6,7 +6,7 @@ html {
 }
 
 html.modal-open {
-  scrollbar-gutter: auto; /* O desactiva completamente */
+  scrollbar-gutter: auto;
 }
 
 body {

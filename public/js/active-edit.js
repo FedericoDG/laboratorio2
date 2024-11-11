@@ -21,7 +21,6 @@ const quill = new Quill('#description', {
       [{ header: [1, 2, false] }],
       [{ align: [] }],
       ['bold', 'italic', 'underline', 'strike'],
-      ['blockquote'],
       [{ list: 'ordered' }, { list: 'bullet' }],
       [{ color: [] }, { background: [] }],
       ['clean'],

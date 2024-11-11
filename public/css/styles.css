@@ -7,7 +7,7 @@ html {
 }
 
 html.modal-open {
-  scrollbar-gutter: auto; /* O desactiva completamente */
+  scrollbar-gutter: auto;
 }
 
 body {
@@ -148,15 +148,14 @@ dd p {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Exactamente 3 columnas */
-  gap: 20px; /* Espacio controlado entre las tarjetas */
-  max-width: 1200px; /* Ancho máximo del contenedor para limitar la expansión */
-  padding: 0 10px; /* Espacio interno lateral */
-  /*  background-color: #f0506e; */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  padding: 0 10px;
 }
 
 .grid-container .uk-card {
-  max-width: 500px; /* Ancho máximo de cada tarjeta */
+  max-width: 500px;
   width: 100%;
 }
 

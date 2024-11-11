@@ -1,8 +1,3 @@
-/*!
-FullCalendar Premium Bundle v6.1.15
-Docs & License: https://fullcalendar.io/docs/initialize-globals
-(c) 2024 Adam Shaw
-*/
 var FullCalendar = (function (e) {
   'use strict';
   var t,
