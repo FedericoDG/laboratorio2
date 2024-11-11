@@ -63,7 +63,7 @@ cd laboratorio2
 npm install
 ```
 
-4. Renombrar el archivo _.env.explample_ a _.env_ y editar su contenido con la cadena de conexión a la base datos Mysql:
+4. Renombrar el archivo _.env.explample_ a _.env_ y editar su contenido con la cadena de conexión a la base datos Mysql.
 5. Inicializar los servicios de docker:
 
 ```bash
