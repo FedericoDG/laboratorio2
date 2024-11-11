@@ -2,6 +2,11 @@
 
 Este es el repositorio del proyecto **Atención Médica**, una aplicación diseñada para ayudar a los profesionales médicos a gestionar su agenda y consultar la información de la historia clínica de sus pacientes en una institución de salud.
 
+## Prerrequisitos
+
+- **Docker Desktop**: Necesario para orquestar contenedores en el entorno de desarrollo y despliegue.
+- **Node.js v18+**: La aplicación requiere una versión de Node 18 o superior para asegurar la compatibilidad.
+
 ## Descripción General
 
 La aplicación permite a los médicos:
@@ -21,6 +26,7 @@ La aplicación permite a los médicos:
 - Visualización de los turnos diarios.
 - Posibilidad de consultar turnos de otros días.
 - Visualización de detalles como motivo de consulta y estado de cada turno.
+- Creación de nuevos turnos, así como la cancelación de los mismos.
 
 ### Historia Clínica Electrónica (HCE)
 
@@ -33,15 +39,11 @@ La aplicación permite a los médicos:
 
 ### Cierre de Atención
 
-Para finalizar una consulta, es obligatorio haber registrado al menos un diagnóstico y una evolución. Solo los registros de la última atención pueden modificarse.
+Permite realizar la atención del paciente. Se puede cargar medicamentos que el paciente está consumiendo, alergias, hábitos y antecedentes patológicos. Además, por cada atención, se deja un registro de lo/s diagnósticos y de una nota con la evolución.
 
 ### Templates para Notas Clínicas
 
 La aplicación permite crear y cargar templates de notas clínicas, facilitando la creación de evoluciones en la HCE.
-
-## Estructura de la Base de Datos
-
-La base de datos incluye tablas para representar la agenda y la historia clínica de los pacientes. Este esquema debe estar pre-poblado para probar la aplicación.
 
 ## Instrucciones de Instalación
 
