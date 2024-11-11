@@ -92,3 +92,5 @@ docker-compose up -d
 - **JWT**: Manejo de autenticación mediante tokens JSON Web Token.
 - **Joi**: Validación de datos de variables de entorno.
 - **Docker Compose**: Orquestación de contenedores para desarrollo y despliegue.
+- **Vercel:** Para el despliegue de la aplicación.
+- **Aiven:** Como hosting de la base de datos MySQL.
