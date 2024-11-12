@@ -16,8 +16,10 @@ const tooltip = document.getElementById('tooltip');
 const statusContainer = document.getElementById('statusContainer');
 const btnContainer = document.getElementById('btnContainer');
 const closeModal = document.getElementById('close-modal-button');
+const closeModalStatus = document.getElementById('cancelStatus');
 const dateform = document.getElementById('dateForm');
 const modal = UIkit.modal('#my-modal');
+const modalStatus = UIkit.modal('#modalStatus');
 
 // VARIABLES
 const now = new Date();
@@ -281,6 +283,10 @@ cancel.addEventListener('click', () => {
 closeModal.addEventListener('click', () => {
   modal.hide();
   btnContainer.innerHTML = '';
+});
+
+closeModalStatus.addEventListener('click', () => {
+  modalStatus.hide();
 });
 
 searchAnPatient.addEventListener('submit', (event) => {
