@@ -127,8 +127,8 @@
           <ul uk-accordion="multiple: true" class="uk-section-muted" style="padding: 14px !important;">
 
             <!-- MEDICATION -->
-            <li>
-              <a class="uk-accordion-title" href>Medicamentos</a>
+            <li class="uk-open">
+              <a class="uk-accordion-title" href>Antecedentes Médicos</a>
               <div class="uk-accordion-content">
                 <div class="uk-section uk-section-muted uk-padding-small">
                   <% if (activeAppointment.patient.medications.length) { %>
@@ -147,15 +147,16 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <% activeAppointment.patient.medications.forEach((item) => { %>
                       <tr>
-                        <% activeAppointment.patient.medications.forEach((item) => { %>
                         <td><%= item.name %></td>
                         <td class=" uk-flex uk-flex-center">
                           <div uk-tooltip="title: Eliminar medicación">
                             <button type="button" style="cursor: pointer; color:#f0506e;" uk-icon="icon: ban; ratio: 1" class="ban-button-medication" data-id="<%= item.name %>"></button>
                           </div>
                         </td>
-                        <% }) %>
+                      </tr>
+                      <% }) %>
                     </tbody>
                   </table>
                   <% }else {%>
@@ -168,13 +169,9 @@
                   <h2 class="uk-text-meta uk-text-center">No consume ningún tipo de medicación</h2>
                   <% } %>
                 </div>
-              </div>
-            </li>
 
-            <!-- ALLERGIES -->
-            <li>
-              <a class="uk-accordion-title" href>Alergias</a>
-              <div class="uk-accordion-content">
+
+                <!-- ALLERGIES -->
                 <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
                   <% if (activeAppointment.patient.allergies.length) { %>
                   <table class="uk-table uk-table-divider uk-table-small">
@@ -226,14 +223,8 @@
                   <h2 class="uk-text-meta uk-text-center">No tiene ningún tipo de alergia</h2>
                   <% } %>
                 </div>
-              </div>
 
-            </li>
-
-            <!-- PATHOLOGICAL HISTORY -->
-            <li>
-              <a class="uk-accordion-title" href>Antecedentes Patológicos</a>
-              <div class="uk-accordion-content">
+                <!-- PATHOLOGICAL HISTORY -->
                 <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
                   <% if (activeAppointment.patient.pathologicalHistory.length) { %>
                   <table class="uk-table uk-table-divider uk-table-small">
@@ -280,13 +271,8 @@
                   <h2 class="uk-text-meta uk-text-center">No tiene ningún tipo de antecedente patológico</h2>
                   <% } %>
                 </div>
-              </div>
-            </li>
 
-            <!-- HABITS -->
-            <li>
-              <a class="uk-accordion-title" href>Hábitos</a>
-              <div class="uk-accordion-content">
+                <!-- HABITS -->
                 <div class=" uk-section uk-margin-top uk-section-muted uk-padding-small">
                   <% if (activeAppointment.patient.habits.length) { %>
                   <table class="uk-table uk-table-divider uk-table-small">

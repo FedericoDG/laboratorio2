@@ -11,9 +11,9 @@ export const patients = [
   },
   {
     patientDocument: 20000002,
-    lastname: 'López',
+    lastname: 'Lopez',
     name: 'Juan',
-    gender: 'MALE',
+    gender: 'FEMALE',
     socialSecurity: 'Medicare',
     birthDate: DateTime.fromISO('1990-02-12', { zone: 'UTC' }),
   },

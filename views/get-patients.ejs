@@ -55,6 +55,7 @@
             <th>Apellido</th>
             <th>Nombre</th>
             <th>Fecha de Nacimiento</th>
+            <th>Obra Social</th>
             <th>Estado</th>
             <th class="uk-text-center">Acciones</th>
           </tr>
@@ -68,6 +69,7 @@
             <td class="<%= statusClass %>"><%- item.lastname %></td>
             <td class="<%= statusClass %>"><%- item.name %></td>
             <td class="<%= statusClass %>"><%- item.birthDate %></td>
+            <td class="<%= statusClass %>"><%- item.socialSecurity %></td>
             <td>
               <span class="<%= statusClass2 %>">
                 <%- item.isActive  ? 'Activo' : 'Inactivo'%>
